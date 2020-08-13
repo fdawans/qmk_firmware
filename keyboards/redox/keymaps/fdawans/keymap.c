@@ -15,11 +15,9 @@
 //Used for _SYM Layer (Lock Numbers) & _FN Layer (Lock Function Keys)
 #define TAPPING_TOGGLE 1
 
-//Activate Layer on Hold, Press Enter on Tap
-#define LK_ENT LT(_NAV, KC_ENT)
 //Activate Layer on Hold, Press Space on Tap //Backspace: KC_BSPC
-#define NV_SPC LT(_NAV, KC_SPC)
-#define NV_BSPC LT(_NAV, KC_BSPC)
+#define NAV_SPC LT(_NAV, KC_SPC)
+#define NAV_BSPC LT(_NAV, KC_BSPC)
 
 //Shortcuts on NAV Layer
 #define KC_SEL LCTL(KC_A)
@@ -30,16 +28,36 @@
 #define KC_PASTE LCTL(KC_V)
 #define KC_PRT LCTL(KC_V)
 
-//Tap: SYM Layer, Hold: NAV Layer
-#define L_1 LT(_NAV, _SYM)
-
 //One Shot Key 
 #define M_SYM OSM(_SYM)
 #define M_SFT OSM(MOD_LSFT)
 #define M_CTR OSM(MOD_LCTR)
 #define M_ALT OSM(MOD_LALT)
 
+// Tap Dance keycodes
+// Use TD(ALT_LP) in layout to use
+enum td_keycodes {
+    COPY // Our example key: `CTRL + C` when held, `D` when tapped. Add additional keycodes for each tapdance.
+};
 
+// Define a type containing as many tapdance states as you need
+typedef enum {
+    SINGLE_TAP,
+    SINGLE_HOLD,
+    DOUBLE_SINGLE_TAP
+} td_state_t;
+
+// Create a global instance of the tapdance state type
+static td_state_t td_state;
+
+// Declare your tapdance functions:
+
+// Function to determine the current tapdance state
+uint8_t cur_dance(qk_tap_dance_state_t *state);
+
+// `finished` and `reset` functions for each tapdance keycode
+void copy_finished(qk_tap_dance_state_t *state, void *user_data);
+void copy_reset(qk_tap_dance_state_t *state, void *user_data);
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -49,11 +67,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      FR_TAB  ,FR_Q    ,FR_W    ,FR_F    ,FR_P    ,FR_B    ,FR_EQUA ,                          FR_PLUS ,FR_J    ,FR_L    ,FR_U    ,FR_Y    ,FR_SLSH ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     L_SYM   ,FR_A    ,FR_R    ,FR_S    ,FR_T    ,FR_G    ,FR_LPAR ,                          FR_RPAR ,FR_M    ,FR_N    ,FR_E    ,FR_I    ,FR_O    ,L_SYM  ,
+     M_SYM   ,FR_A    ,FR_R    ,FR_S    ,FR_T    ,FR_G    ,FR_LPAR ,                          FR_RPAR ,FR_M    ,FR_N    ,FR_E    ,FR_I    ,FR_O    ,M_SYM  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     FR_LSFT ,FR_Z    ,FR_X    ,FR_C    ,FR_V    ,FR_V    ,FR_ESC  ,FR_LCMD ,        FR_DEL  ,TT(_FN) ,FR_K,   ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,FR_RSFT ,
+     M_SFT   ,FR_Z    ,FR_X    ,FR_C    ,TD(COPY),FR_V    ,FR_ESC  ,FR_LCMD ,                ,TT(_FN) ,FR_K,   ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,M_SFT ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-        ,        ,        ,        ,         ,FR_SPAC     ,LY_1    ,FR_LCTR ,        FR_RSFT ,TT(_NAV)     ,FR_ENTR      ,FR_UP   ,FR_LEFT ,FR_DOWN ,FR_RIGHT,
+        ,        ,        ,        ,         ,M_ALT       ,NAV_SPC ,FR_ENTR ,        FR_DEL  ,NAV_BSPC    ,M_CTR        ,FR_UP   ,FR_LEFT ,FR_DOWN ,FR_RIGHT,
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
@@ -100,59 +118,53 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
   
-
-
-
-
-
-
-/* AZERTY
- * .--------------------------------------------------------------------------------------------------------------------------------------.
- * | ESC    | &      | é      | "      | '      | (      | -      | è      | _      | ç      | à      | )      | =      | INSERT | BACKSP |
- * |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+-----------------|
- * | TAB    | a      | z      | e      | r      | t      | y      | u      | i      | o      | p      | ^      | $      | ENTER  | PG UP  |
- * |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+-----------------+--------|
- * | CAP LK | q      | s      | d      | f      | g      | h      | j      | k      | l      | m      | ù      | *      | ENTER  | PG DN  |
- * |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------------------------+--------|
- * | LSHIFT | w      | x      | c      | v      | b      | n      | ,      | ;      | :      | !      | <      | LSHIFT | UP     | DEL    |
- * |--------+--------+--------+--------+--------+-----------------+--------+--------+--------+--------+-----------------+--------+--------|
- * | LCTRL  | CMD    | ALT    | FN     | SPACE  | SPACE  | SPACE  | SPACE  | ALGR   | MENU   | HOME   | END    | LEFT   | DOWN   | RIGHT  |
- * '--------------------------------------------------------------------------------------------------------------------------------------'
- */
-
-
- [_AZ] = { /* AZERTY */
-  { FR_ESC,  	FR_AMP, 	FR_EACU, 	FR_QUOT, 	FR_APOS,  	FR_LPAR, 	FR_MINS, 	FR_EGRV,  	FR_UNDS,  	FR_CCED,  	FR_AGRV,  	FR_RPAR,  	FR_EQUA,  	FR_INST,  	FR_BSPC },
-  { FR_TAB,  	FR_A,   	FR_Z,    	FR_E,    	FR_R,     	FR_T,    	FR_Y,    	FR_U,     	FR_I,     	FR_O,		FR_P,     	FR_HAT,   	FR_DLR,   	FR_ENTR,  	FR_PGUP },
-  { FR_CAPL, 	FR_Q,   	FR_S,    	FR_D,    	FR_F,     	FR_G,    	FR_H,    	FR_J,     	FR_K,     	FR_L,     	FR_M,     	FR_UGRV,  	FR_AST,   	FR_ENTR,  	FR_PGDN },
-  { FR_LSFT, 	FR_W,    	FR_X,    	FR_C,    	FR_V,     	FR_B,    	FR_N,    	FR_COMM,  	FR_SCLN,  	FR_COLN,  	FR_EXCL,  	FR_LESS,    FR_RSFT,  	FR_UP,    	FR_DEL  },
-  { FR_LCTR, 	FR_LCMD, 	FR_LALT, 	MO(_FN),	FR_SPAC,  	FR_SPAC, 	FR_SPAC, 	FR_SPAC,  	FR_ALGR,  	FR_MENU,  	FR_HOME,  	FR_END,   	FR_LEFT,  	FR_DOWN,  	FR_RIGT },
- },
-
-
-/* FUNCTION
- * .--------------------------------------------------------------------------------------------------------------------------------------.
- * |        | F1     | F2     | F3     | F4     | F5     | F6     | F7     | F8     | F9     | F10    | F11    | F12    | PRINT  | LED    |
- * |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
- * |        | PREV   | PLAY   | NEXT   |        |        |        |        | NUM LCK| 7      | 8      | 9      | *      |        | LED+   |
- * |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
- * |        | VOL-   | MUTE   | VOL+   |        |        |        |        |        | 4      | 5      | 6      | -      |        | LED-   |
- * |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
- * |        |        |        |        |        |        |        |        |        | 1      | 2      | 3      | +      |        | LEDMAX |
- * |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------|
- * | RESET  |        |        | FN     |        |        |        |        |        |        | 0      | .      | PENT   |        | LEDLVL |
- * '--------------------------------------------------------------------------------------------------------------------------------------'
- */
- 
- [_FN] = { /* FUNCTION */
-  { FR_EMPT,	FR_F1,		FR_F2,		FR_F3,		FR_F4,		FR_F5,		FR_F6,  	FR_F7,		FR_F8,    	FR_F9,		FR_F10, 	FR_F11,  	FR_F12,   	FR_PSCR,	BL_TOGG },
-  { FR_EMPT,	FR_MPRV,	FR_MPLY,	FR_MNXT,	FR_EMPT,	FR_EMPT,	FR_EMPT,	FR_EMPT,	FR_NUML,  	FR_7,     	FR_8,   	FR_9,    	FR_MULT,  	FR_EMPT,	BL_INC	},
-  { FR_EMPT,	FR_MVDN,	FR_MUTE,	FR_MVUP,	FR_EMPT,	FR_EMPT,	FR_EMPT,	FR_EMPT,	FR_EMPT,  	FR_4,     	FR_5,   	FR_6,    	FR_MOIN,  	FR_EMPT,	BL_DEC	},
-  { FR_EMPT,	FR_EMPT,	FR_EMPT,	FR_EMPT,	FR_EMPT,	FR_EMPT,	FR_EMPT,	FR_EMPT,  	FR_EMPT,  	FR_1,     	FR_2,   	FR_3,    	FR_PLUS,  	FR_EMPT,	BL_ON 	},
-  { RESET,	    FR_EMPT,	FR_EMPT,	FR_TRANS,	FR_EMPT,	FR_EMPT,	FR_EMPT,	FR_EMPT,  	FR_EMPT,  	FR_EMPT,  	FR_0,   	FR_DOT,  	FR_ENTK,  	FR_EMPT,	BL_STEP	},
- },
-
-
 };
 
 
+// Determine the tapdance state to return
+uint8_t cur_dance(qk_tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (state->interrupted || !state->pressed) return SINGLE_TAP;
+        else return SINGLE_HOLD;
+    }
+
+    if (state->count == 2) return DOUBLE_SINGLE_TAP;
+    else return 3; // Any number higher than the maximum state value you return above
+}
+
+// Handle the possible states for each tapdance keycode you define:
+
+void copy_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case SINGLE_TAP:
+            register_code16(KC_D);
+            break;
+        case SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_LCTR)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            register_code16(KC_C); 
+            break;
+        case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+            tap_code16(KC_D);
+            register_code16(KC_D);
+    }
+}
+
+void copy_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case SINGLE_TAP:
+            unregister_code16(KC_D);
+            break;
+        case SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LCTR)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            unregister_code16(KC_C); 
+            break;
+        case DOUBLE_SINGLE_TAP:
+            unregister_code16(KC_D);
+    }
+}
+
+// Define `ACTION_TAP_DANCE_FN_ADVANCED()` for each tapdance keycode, passing in `finished` and `reset` functions
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [COPY] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, copy_finished, copy_reset),
+};
