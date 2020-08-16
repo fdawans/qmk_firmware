@@ -1,7 +1,7 @@
 
 // https://github.com/qmk/qmk_firmware/blob/master/keyboards/xd75/keymaps/french/keymap.c
 
-#include "keymap_french.c"
+#include "keymap_french.h"
 #include QMK_KEYBOARD_H
 
 
@@ -14,31 +14,40 @@
 //Tap once to lock layer, hold to activate layer - use TT(layer)
 //Used for _SYM Layer (Lock Numbers) & _FN Layer (Lock Function Keys)
 #define TAPPING_TOGGLE 1
-
 //Activate Layer on Hold, Press Space on Tap //Backspace: KC_BSPC
 #define NAV_SPC LT(_NAV, KC_SPC)
 #define NAV_BSPC LT(_NAV, KC_BSPC)
 
-//Shortcuts on NAV Layer
+//Shortcuts on NAV Layer or on Hold/Double Tap
 #define KC_SEL LCTL(KC_A)
 #define KC_REDO LCTL(KC_Z)
 #define KC_UNDO LCTL(KC_X)
 #define KC_COPY LCTL(KC_C)
 #define KC_CUT LCTL(KC_D)
 #define KC_PASTE LCTL(KC_V)
-#define KC_PRT LCTL(KC_V)
 
-//One Shot Key 
+/*
+KC_ASDN = Lower the Auto Shift timeout variable (down)
+KC_ASUP = Raise the Auto Shift timeout variable (up)
+KC_ASRP = Report your current Auto Shift timeout value
+*/
+
+//One Shot Keys
 #define M_SYM OSM(_SYM)
 #define M_SFT OSM(MOD_LSFT)
 #define M_CTR OSM(MOD_LCTR)
 #define M_ALT OSM(MOD_LALT)
+#define M_WIN OSM(MOD_LGUI)
 
 // Tap Dance keycodes
 // Use TD(ALT_LP) in layout to use
 enum td_keycodes {
-    COPY // Our example key: `CTRL + C` when held, `D` when tapped. Add additional keycodes for each tapdance.
-};
+    COPY, // Our example key: `CTRL + C` when held, `D` when tapped. Add additional keycodes for each tapdance.
+    TABLK,
+    QUOT,
+    PHOM,
+    PEND
+    };
 
 // Define a type containing as many tapdance states as you need
 typedef enum {
@@ -58,63 +67,72 @@ uint8_t cur_dance(qk_tap_dance_state_t *state);
 // `finished` and `reset` functions for each tapdance keycode
 void copy_finished(qk_tap_dance_state_t *state, void *user_data);
 void copy_reset(qk_tap_dance_state_t *state, void *user_data);
+void tablk_finished(qk_tap_dance_state_t *state, void *user_data);
+void tablk_reset(qk_tap_dance_state_t *state, void *user_data);
+void quot_finished(qk_tap_dance_state_t *state, void *user_data);
+void quot_reset(qk_tap_dance_state_t *state, void *user_data);
+void phom_finished(qk_tap_dance_state_t *state, void *user_data);
+void phom_reset(qk_tap_dance_state_t *state, void *user_data);
+void pend_finished(qk_tap_dance_state_t *state, void *user_data);
+void pend_reset(qk_tap_dance_state_t *state, void *user_data);
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
  [_COLEMAK] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-             ,FR_AMP  ,FR_EACU ,FR_QUOT ,FR_APOS ,FR_PERC ,                                           ,FR_UNDS ,FR_AT   ,FR_AGRV ,FR_EGRV ,FR_MINS ,FR_ASTR ,
+     KC_VOLU ,FR_AMP  ,FR_EACU ,FR_QUOT ,FR_ASTR ,FR_PERC ,                                            FR_MINS ,FR_AT   ,FR_AGRV ,FR_EGRV ,FR_UNDS ,TD(PHOM),
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     FR_TAB  ,FR_Q    ,FR_W    ,FR_F    ,FR_P    ,FR_B    ,FR_EQUA ,                          FR_PLUS ,FR_J    ,FR_L    ,FR_U    ,FR_Y    ,FR_SLSH ,
+     KC_VOLD ,FR_Q    ,FR_W    ,FR_F    ,FR_P    ,FR_B    ,FR_EQUA ,                          FR_PLUS ,FR_J    ,FR_L    ,FR_U    ,FR_Y    ,FR_SLSH ,TD(PEND),
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SYM   ,FR_A    ,FR_R    ,FR_S    ,FR_T    ,FR_G    ,FR_LPAR ,                          FR_RPAR ,FR_M    ,FR_N    ,FR_E    ,FR_I    ,FR_O    ,M_SYM  ,
+     M_SYM   ,FR_A    ,FR_R    ,FR_S    ,FR_T    ,FR_G    ,FR_LPAR ,                          FR_RPAR ,FR_M    ,FR_N    ,FR_E    ,FR_I    ,FR_O    ,M_SYM   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SFT   ,FR_Z    ,FR_X    ,FR_C    ,TD(COPY),FR_V    ,FR_ESC  ,FR_LCMD ,                ,TT(_FN) ,FR_K,   ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,M_SFT ,
+     M_SFT   ,FR_Z    ,FR_X    ,FR_C    ,TD(COPY),FR_V    ,KC_ESC  ,M_WIN   ,       TD(TABLK),TT(_FN) ,FR_K,   ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,M_SFT   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-        ,        ,        ,        ,         ,M_ALT       ,NAV_SPC ,FR_ENTR ,        FR_DEL  ,NAV_BSPC    ,M_CTR        ,FR_UP   ,FR_LEFT ,FR_DOWN ,FR_RIGHT,
+     KC_ASUP ,KC_ASDN ,KC_ASRP ,        ,     M_ALT   ,    NAV_SPC ,KC_ENTR ,       KC_DEL   ,NAV_BSPC,    M_CTR   ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
 
    [_SYM] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-             ,FR_1    ,FR_2    ,FR_3    ,FR_4    ,FR_5    ,                                            FR_8    ,FR_9    ,FR_0    ,FR_GRV  ,FR_UNDS , ,
+     KC_BRIU ,FR_1    ,FR_2    ,FR_3    ,FR_4    ,FR_5    ,                                            FR_8    ,FR_9    ,FR_0    ,FR_GRV  ,FR_UNDS ,        ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-                                                 ,FR_HASH ,FR_6    ,                          FR_7    ,        ,        ,FR_UGRV ,FR_DIAE ,FR_BSLS , ,
+     KC_BRID ,        ,        ,FR_APOS ,        ,FR_HASH ,FR_6    ,                          FR_7    ,        ,        ,FR_UGRV ,FR_CCIRC,FR_BSLS ,        ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-                               ,FR_DLR  ,        ,FR_LCBR ,FR_LBRC ,                          FR_RBRC ,FR_RCBR ,        ,FR_EURO ,FR_CIRC ,FR_PIPE , ,
+     _______ ,        ,        ,FR_DLR  ,        ,FR_LCBR ,FR_LBRC ,                          FR_RBRC ,FR_RCBR ,        ,FR_EURO ,FR_UMLT ,FR_PIPE ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-            ,FR_LABK ,FR_RABK  ,FR_CCED ,        ,        ,        ,        ,                ,        ,        ,        ,FR_SCLN ,FR_COLN ,FR_EXLM , ,
+             ,FR_LABK ,FR_RABK ,FR_CCED ,        ,        ,        ,        ,                ,_______ ,        ,        ,FR_SCLN ,FR_COLN ,FR_EXLM ,        ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-             ,,        ,             ,        FR_LALT,                                                                  ,FR_UP   ,FR_LEFT ,FR_DOWN ,FR_RIGHT
+             ,        ,        ,        ,     FR_LALT ,    _______ ,        ,                ,_______ ,            ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
   
      [_NAV] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-             ,FR_1    ,FR_2    ,FR_3    ,FR_4    ,FR_5    ,                                            FR_8    ,FR_9    ,FR_0    ,FR_GRV  ,FR_UNDS , ,
+             ,FR_1    ,FR_2    ,FR_3    ,FR_4    ,FR_5    ,                                            FR_8    ,FR_9    ,FR_0    ,FR_GRV  ,FR_UNDS ,        ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-                                                 ,        ,        ,                                  ,        ,FR_PGUP ,FR_UP   ,FR_PGDN ,  ,
+             ,        ,        ,        ,        ,        ,        ,                                  ,        ,KC_PGUP ,KC_UP   ,KC_PGDN ,        ,        ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-              KC_SEL  ,R_TAB   ,FR_LSFT ,FR_LCTR ,FR_LALT          ,                                  ,        ,FR_LEFT ,FR_DOWN ,FR_RIGHT,  ,
+             ,KC_SEL  ,KC_TAB  ,KC_LSFT ,KC_LCTR ,KC_LALT ,        ,                                  ,        ,KC_LEFT ,KC_DOWN ,KC_RIGHT,        ,        ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-             ,KC_REDO ,KC_UNDO ,KC_CUT  ,KC_COPY ,KC_PASTE,        ,        ,                ,        ,        ,FR_HOME ,        ,FR_END  ,  ,
+             ,KC_REDO ,KC_UNDO ,KC_CUT  ,KC_COPY ,KC_PASTE,        ,        ,                ,_______ ,        ,KC_HOME ,        ,KC_END  ,        ,        ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-             ,        ,             ,    
+             ,        ,        ,        ,             ,    _______ ,        ,                ,_______ ,            ,             ,        ,        ,                 
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
   
      [_FN] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     FR_EMPT ,FR_F1   ,FR_F2   ,FR_F3   ,FR_F4   ,FR_F5   ,		                                       ,FR_F8   ,FR_F9   ,FR_F10  ,FR_F11  ,FR_F12  ,FR_PSCR ,
+             ,KC_F1   ,KC_F2   ,KC_F3   ,KC_F4   ,KC_F5   ,                                            KC_F8   ,KC_F9   ,KC_F10  ,KC_F11  ,KC_F12  ,FR_PSCR ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-                                                 ,        ,FR_F6   ,                          FR_F7   ,        ,FR_PGUP ,FR_UP   ,FR_PGDN ,  ,
+             ,        ,        ,        ,        ,        ,KC_F6   ,                          KC_F7   ,        ,        ,        ,        ,        ,        ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-                      ,R_TAB   ,FR_LSFT ,FR_LCTR ,FR_LALT          ,                                  ,        ,FR_LEFT ,FR_DOWN ,FR_RIGHT,  ,
+             ,        ,        ,        ,        ,        ,        ,                                  ,        ,        ,        ,        ,        ,        ,                      
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-             ,        ,        ,        ,        ,        ,        ,        ,                ,        ,        ,FR_HOME ,        ,FR_END  ,  ,
+             ,        ,        ,        ,        ,        ,        ,        ,                ,        ,        ,        ,        ,        ,        ,        ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-             ,        ,             ,    
+             ,        ,        ,        ,             ,            ,        ,                ,        ,            ,             ,        ,        ,        
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
   
@@ -164,7 +182,64 @@ void copy_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void tablk_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case SINGLE_TAP:
+            register_code16(KC_TAB);
+            break;
+        case SINGLE_HOLD:
+            register_code16(KC_CAPS); 
+            break;
+        case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+            register_code16(KC_TAB);
+    }
+}
+
+void tablk_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case SINGLE_TAP:
+            unregister_code16(KC_TAB);
+            break;
+        case SINGLE_HOLD:
+            unregister_code16(KC_CAPS); 
+            break;
+        case DOUBLE_SINGLE_TAP:
+            unregister_code16(KC_TAB);
+    }
+}
+
+void quot_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case SINGLE_TAP:
+            register_code16(KC_TAB);
+            break;
+        case SINGLE_HOLD:
+            register_code16(KC_CAPS); 
+            break;
+        case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+            register_code16(KC_TAB);
+    }
+}
+
+void quot_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case SINGLE_TAP:
+            unregister_code16(KC_TAB);
+            break;
+        case SINGLE_HOLD:
+            unregister_code16(KC_CAPS); 
+            break;
+        case DOUBLE_SINGLE_TAP:
+            unregister_code16(KC_TAB);
+    }
+}
+
 // Define `ACTION_TAP_DANCE_FN_ADVANCED()` for each tapdance keycode, passing in `finished` and `reset` functions
 qk_tap_dance_action_t tap_dance_actions[] = {
     [COPY] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, copy_finished, copy_reset),
+    [TABLK] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, tablk_finished, tablk_reset),
+    [QUOT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quot_finished, quot_reset),
+
 };
