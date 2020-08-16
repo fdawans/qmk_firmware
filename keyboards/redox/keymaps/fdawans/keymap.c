@@ -9,7 +9,7 @@
 #define _COLEMAK 0
 #define _SYM 1 //One Shot Key (Layer for next keypress only)
 #define _NAV 2 // Layer (keep it pressed)
-#define _FN 3  
+#define _FN 3
 
 //Tap once to lock layer, hold to activate layer - use TT(layer)
 //Used for _SYM Layer (Lock Numbers) & _FN Layer (Lock Function Keys)
@@ -35,7 +35,7 @@ KC_ASRP = Report your current Auto Shift timeout value
 //One Shot Keys
 #define M_SYM OSM(_SYM)
 #define M_SFT OSM(MOD_LSFT)
-#define M_CTR OSM(MOD_LCTR)
+#define M_CTR OSM(MOD_LCTL)
 #define M_ALT OSM(MOD_LALT)
 #define M_WIN OSM(MOD_LGUI)
 
@@ -83,13 +83,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_VOLU ,FR_AMP  ,FR_EACU ,FR_QUOT ,FR_ASTR ,FR_PERC ,                                            FR_MINS ,FR_AT   ,FR_AGRV ,FR_EGRV ,FR_UNDS ,TD(PHOM),
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_VOLD ,FR_Q    ,FR_W    ,FR_F    ,FR_P    ,FR_B    ,FR_EQUA ,                          FR_PLUS ,FR_J    ,FR_L    ,FR_U    ,FR_Y    ,FR_SLSH ,TD(PEND),
+     KC_VOLD ,FR_Q    ,FR_W    ,FR_F    ,FR_P    ,FR_B    ,KC_EQL ,                           FR_PLUS ,FR_J    ,FR_L    ,FR_U    ,FR_Y    ,FR_SLSH ,TD(PEND),
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SYM   ,FR_A    ,FR_R    ,FR_S    ,FR_T    ,FR_G    ,FR_LPAR ,                          FR_RPAR ,FR_M    ,FR_N    ,FR_E    ,FR_I    ,FR_O    ,M_SYM   ,
+     M_SYM   ,FR_A    ,FR_R    ,FR_S    ,FR_T    ,FR_G    ,KC_LPRN ,                          KC_RPRN ,FR_M    ,FR_N    ,FR_E    ,FR_I    ,FR_O    ,M_SYM   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SFT   ,FR_Z    ,FR_X    ,FR_C    ,TD(COPY),FR_V    ,KC_ESC  ,M_WIN   ,       TD(TABLK),TT(_FN) ,FR_K,   ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,M_SFT   ,
+     M_SFT   ,FR_Z    ,FR_X    ,FR_C    ,TD(COPY),FR_V    ,KC_ESC  ,M_WIN   ,       TD(TABLK),TT(_FN) ,FR_K    ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,M_SFT   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_ASUP ,KC_ASDN ,KC_ASRP ,XXXXXXX ,     M_ALT   ,    NAV_SPC ,KC_ENTR ,       KC_DEL   ,NAV_BSPC,    M_CTR   ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
+     KC_ASUP ,KC_ASDN ,KC_ASRP ,XXXXXXX ,     M_ALT   ,    NAV_SPC ,KC_ENTER,        KC_DEL  ,NAV_BSPC,    M_CTR   ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
@@ -107,35 +107,35 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,XXXXXXX ,        XXXXXXX ,_______ ,    _______ ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
-  
+
      [_NAV] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     XXXXXXX ,FR_1    ,FR_2    ,FR_3    ,FR_4    ,FR_5    ,                                            FR_8    ,FR_9    ,FR_0    ,FR_GRV  ,FR_UNDS ,        ,
+     XXXXXXX ,FR_1    ,FR_2    ,FR_3    ,FR_4    ,FR_5    ,                                            FR_8    ,FR_9    ,FR_0    ,FR_GRV  ,FR_UNDS ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,        ,        ,        ,        ,        ,        ,                                  ,        ,KC_PGUP ,KC_UP   ,KC_PGDN ,        ,        ,
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,KC_PGUP ,KC_UP   ,KC_PGDN ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_SEL  ,KC_TAB  ,KC_LSFT ,KC_LCTR ,KC_LALT ,XXXXXXX ,                        XXXXXXX   ,XXXXXXX ,KC_LEFT ,KC_DOWN ,KC_RIGHT,XXXXXXX ,_______ ,
+     _______ ,KC_SEL  ,KC_TAB  ,KC_LSFT ,KC_LCTRL,KC_LALT ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,KC_LEFT ,KC_DOWN ,KC_RIGHT,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,KC_REDO ,KC_UNDO ,KC_CUT  ,KC_COPY ,KC_PASTE,XXXXXXX ,XXXXXXX ,        XXXXXXX ,_______ ,XXXXXXX ,KC_HOME ,XXXXXXX ,KC_END  ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,XXXXXXX ,        XXXXXXX ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX          
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,XXXXXXX ,        XXXXXXX ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
-  
+
      [_FN] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     XXXXXXX ,KC_F1   ,KC_F2   ,KC_F3   ,KC_F4   ,KC_F5   ,                                            KC_F8   ,KC_F9   ,KC_F10  ,KC_F11  ,KC_F12  ,FR_PSCR ,
+     XXXXXXX ,KC_F1   ,KC_F2   ,KC_F3   ,KC_F4   ,KC_F5   ,                                            KC_F8   ,KC_F9   ,KC_F10  ,KC_F11  ,KC_F12  ,KC_PSCR ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,KC_F6   ,                          KC_F7   ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,                      
+     _______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,        XXXXXXX ,_______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     XXXXXXX ,    _______ ,XXXXXXX ,        XXXXXXX ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX 
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     XXXXXXX ,    _______ ,XXXXXXX ,        XXXXXXX ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
-  
+
 };
 
 
@@ -159,8 +159,8 @@ void copy_finished(qk_tap_dance_state_t *state, void *user_data) {
             register_code16(KC_D);
             break;
         case SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LCTR)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
-            register_code16(KC_C); 
+            register_mods(MOD_BIT(KC_LCTRL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            register_code16(KC_C);
             break;
         case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
             tap_code16(KC_D);
@@ -174,8 +174,8 @@ void copy_reset(qk_tap_dance_state_t *state, void *user_data) {
             unregister_code16(KC_D);
             break;
         case SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LCTR)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
-            unregister_code16(KC_C); 
+            unregister_mods(MOD_BIT(KC_LCTRL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            unregister_code16(KC_C);
             break;
         case DOUBLE_SINGLE_TAP:
             unregister_code16(KC_D);
@@ -189,7 +189,7 @@ void tablk_finished(qk_tap_dance_state_t *state, void *user_data) {
             register_code16(KC_TAB);
             break;
         case SINGLE_HOLD:
-            register_code16(KC_CAPS); 
+            register_code16(KC_CAPS);
             break;
         case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
             register_code16(KC_TAB);
@@ -202,7 +202,7 @@ void tablk_reset(qk_tap_dance_state_t *state, void *user_data) {
             unregister_code16(KC_TAB);
             break;
         case SINGLE_HOLD:
-            unregister_code16(KC_CAPS); 
+            unregister_code16(KC_CAPS);
             break;
         case DOUBLE_SINGLE_TAP:
             unregister_code16(KC_TAB);
@@ -216,7 +216,7 @@ void quot_finished(qk_tap_dance_state_t *state, void *user_data) {
             register_code16(KC_TAB);
             break;
         case SINGLE_HOLD:
-            register_code16(KC_CAPS); 
+            register_code16(KC_CAPS);
             break;
         case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
             register_code16(KC_TAB);
@@ -229,7 +229,7 @@ void quot_reset(qk_tap_dance_state_t *state, void *user_data) {
             unregister_code16(KC_TAB);
             break;
         case SINGLE_HOLD:
-            unregister_code16(KC_CAPS); 
+            unregister_code16(KC_CAPS);
             break;
         case DOUBLE_SINGLE_TAP:
             unregister_code16(KC_TAB);
