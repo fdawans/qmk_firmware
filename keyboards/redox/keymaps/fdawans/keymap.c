@@ -26,6 +26,9 @@
 #define KC_CUT LCTL(KC_D)
 #define KC_PASTE LCTL(KC_V)
 
+//#define FR_CCIRC ALGR(KC_9)
+//#define FR_UMLT LSFT(FR_CIRC)
+
 /*
 KC_ASDN = Lower the Auto Shift timeout variable (down)
 KC_ASUP = Raise the Auto Shift timeout variable (up)
@@ -34,12 +37,14 @@ KC_ASRP = Report your current Auto Shift timeout value
 
 //One Shot Layers
 #define M_SYM OSL(_SYM)
+#define M_FN OSL(_FN)
 
 //One Shot Modifiers
 #define M_SFT OSM(MOD_LSFT)
 #define M_CTR OSM(MOD_LCTL)
 #define M_ALT OSM(MOD_LALT)
-#define M_WIN OSM(MOD_LGUI)
+#define M_WIN
+
 
 // Tap Dance keycodes
 // Use TD(ALT_LP) in layout to use
@@ -87,9 +92,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_VOLD ,FR_Q    ,FR_W    ,FR_F    ,FR_P    ,FR_B    ,KC_EQL ,                           FR_PLUS ,FR_J    ,FR_L    ,FR_U    ,FR_Y    ,FR_SLSH ,TD(PEND),
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SYM   ,FR_A    ,FR_R    ,FR_S    ,FR_T    ,FR_G    ,KC_LPRN ,                          KC_RPRN ,FR_M    ,FR_N    ,FR_E    ,FR_I    ,FR_O    ,M_SYM   ,
+     M_SYM   ,FR_A    ,FR_R    ,FR_S    ,FR_T    ,FR_G    ,FR_LPRN ,                          FR_RPRN ,FR_M    ,FR_N    ,FR_E    ,FR_I    ,FR_O    ,M_SYM   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SFT   ,FR_Z    ,FR_X    ,FR_C    ,TD(COPY),FR_V    ,KC_ESC  ,M_WIN   ,       TT(_FN)  ,KC_TAB  ,FR_K    ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,M_SFT   ,
+     M_SFT   ,FR_Z    ,FR_X    ,FR_C    ,TD(COPY),FR_V    ,KC_ESC  ,M_FN    ,        M_WIN   ,KC_TAB  ,FR_K    ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,M_SFT   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      KC_ASUP ,KC_ASDN ,KC_ASRP ,KC_CAPS ,     M_ALT   ,    NAV_SPC ,KC_ENTER,        KC_DEL  ,KC_BSPC ,    M_CTR   ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
@@ -98,13 +103,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
    [_SYM] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_BRIU ,FR_1    ,FR_2    ,FR_3    ,FR_4    ,FR_5    ,                                            FR_8    ,FR_9    ,FR_0    ,FR_GRV  ,FR_UNDS ,XXXXXXX,
+     KC_BRIU ,FR_1    ,FR_2    ,FR_3    ,FR_4    ,FR_5    ,                                            FR_8    ,FR_9    ,FR_0    ,XXXXXXX ,FR_UNDS ,XXXXXXX,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_BRID ,XXXXXXX ,XXXXXXX ,FR_APOS ,XXXXXXX ,FR_HASH ,FR_6    ,                          FR_7    ,XXXXXXX ,XXXXXXX ,FR_UGRV ,FR_CCIRC,FR_BSLS ,XXXXXXX ,
+     KC_BRID ,XXXXXXX ,XXXXXXX ,FR_APOS ,XXXXXXX ,FR_HASH ,FR_6    ,                          FR_7    ,XXXXXXX ,XXXXXXX ,FR_UGRV ,FR_CIRC,FR_BSLS ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,XXXXXXX ,XXXXXXX ,FR_DLR  ,XXXXXXX ,FR_LCBR ,FR_LBRC ,                          FR_RBRC ,FR_RCBR ,XXXXXXX ,FR_EURO ,FR_UMLT ,FR_PIPE ,_______ ,
+     _______ ,FR_LABK ,FR_RABK ,FR_DLR  ,XXXXXXX ,FR_LCBR ,FR_LBRC ,                          FR_RBRC ,FR_RCBR ,XXXXXXX ,FR_EURO ,FR_DIAE ,FR_PIPE ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,FR_LABK ,FR_RABK ,FR_CCED ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,        XXXXXXX ,_______ ,XXXXXXX ,XXXXXXX ,FR_SCLN ,FR_COLN ,FR_EXLM ,XXXXXXX ,
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,FR_CCED ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,        XXXXXXX ,_______ ,XXXXXXX ,XXXXXXX ,FR_SCLN ,FR_COLN ,FR_EXLM ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,XXXXXXX ,        XXXXXXX ,_______ ,    _______ ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
