@@ -32,8 +32,10 @@ KC_ASUP = Raise the Auto Shift timeout variable (up)
 KC_ASRP = Report your current Auto Shift timeout value
 */
 
-//One Shot Keys
-#define M_SYM OSM(_SYM)
+//One Shot Layers
+#define M_SYM OSL(_SYM)
+
+//One Shot Modifiers
 #define M_SFT OSM(MOD_LSFT)
 #define M_CTR OSM(MOD_LCTL)
 #define M_ALT OSM(MOD_LALT)
@@ -87,9 +89,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      M_SYM   ,FR_A    ,FR_R    ,FR_S    ,FR_T    ,FR_G    ,KC_LPRN ,                          KC_RPRN ,FR_M    ,FR_N    ,FR_E    ,FR_I    ,FR_O    ,M_SYM   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SFT   ,FR_Z    ,FR_X    ,FR_C    ,TD(COPY),FR_V    ,KC_ESC  ,M_WIN   ,       TD(TABLK),TT(_FN) ,FR_K    ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,M_SFT   ,
+     M_SFT   ,FR_Z    ,FR_X    ,FR_C    ,TD(COPY),FR_V    ,KC_ESC  ,M_WIN   ,       TT(_FN)  ,KC_TAB  ,FR_K    ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,M_SFT   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_ASUP ,KC_ASDN ,KC_ASRP ,XXXXXXX ,     M_ALT   ,    NAV_SPC ,KC_ENTER,        KC_DEL  ,NAV_BSPC,    M_CTR   ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
+     KC_ASUP ,KC_ASDN ,KC_ASRP ,KC_CAPS ,     M_ALT   ,    NAV_SPC ,KC_ENTER,        KC_DEL  ,KC_BSPC ,    M_CTR   ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
