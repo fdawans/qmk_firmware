@@ -90,7 +90,6 @@ void clear_reset(qk_tap_dance_state_t *state, void *user_data);
 //void pend_finished(qk_tap_dance_state_t *state, void *user_data);
 //void pend_reset(qk_tap_dance_state_t *state, void *user_data);
 
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
  [_COLEMAK] = LAYOUT(
@@ -114,11 +113,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_BRID ,XXXXXXX ,XXXXXXX ,FR_APOS ,XXXXXXX ,FR_HASH ,FR_6    ,                          FR_7    ,XXXXXXX ,XXXXXXX ,FR_UGRV ,FR_CIRC ,FR_BSLS ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,FR_LABK ,FR_RABK ,FR_DLR  ,XXXXXXX ,FR_LCBR ,FR_LBRC ,                          FR_RBRC ,FR_RCBR ,XXXXXXX ,FR_EURO ,FR_DIAE ,FR_PIPE ,_______ ,
+     RGB_TOG ,FR_LABK ,FR_RABK ,FR_DLR  ,XXXXXXX ,FR_LCBR ,FR_LBRC ,                          FR_RBRC ,FR_RCBR ,XXXXXXX ,FR_EURO ,FR_DIAE ,FR_PIPE ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,XXXXXXX ,FR_CCED ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,        XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,FR_SCLN ,FR_COLN ,FR_EXLM ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,XXXXXXX ,        XXXXXXX ,XXXXXXX ,    _______ ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        XXXXXXX ,XXXXXXX ,    _______ ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
@@ -132,7 +131,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,KC_REDO ,KC_UNDO ,KC_CUT  ,KC_COPY ,KC_PASTE,XXXXXXX ,_______ ,        XXXXXXX ,XXXXXXX ,XXXXXXX ,KC_HOME ,XXXXXXX ,KC_END  ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,XXXXXXX ,        XXXXXXX ,XXXXXXX ,    _______ ,     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        XXXXXXX ,XXXXXXX ,    _______ ,     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
