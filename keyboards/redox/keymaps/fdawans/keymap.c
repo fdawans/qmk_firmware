@@ -26,6 +26,8 @@
 #define KC_CUT LCTL(KC_D)
 #define KC_PASTE LCTL(KC_V)
 
+//Already defined in keymap_french.h
+//Copy that file to personal folder
 //#define FR_CCIRC ALGR(KC_9)
 //#define FR_UMLT LSFT(FR_CIRC)
 
@@ -110,7 +112,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_BRIU ,FR_1    ,FR_2    ,FR_3    ,FR_4    ,FR_5    ,                                            FR_8    ,FR_9    ,FR_0    ,XXXXXXX ,FR_UNDS ,XXXXXXX,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_BRID ,XXXXXXX ,XXXXXXX ,FR_APOS ,XXXXXXX ,FR_HASH ,FR_6    ,                          FR_7    ,XXXXXXX ,XXXXXXX ,FR_UGRV ,FR_CIRC,FR_BSLS ,XXXXXXX ,
+     KC_BRID ,XXXXXXX ,XXXXXXX ,FR_APOS ,XXXXXXX ,FR_HASH ,FR_6    ,                          FR_7    ,XXXXXXX ,XXXXXXX ,FR_UGRV ,FR_CIRC ,FR_BSLS ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,FR_LABK ,FR_RABK ,FR_DLR  ,XXXXXXX ,FR_LCBR ,FR_LBRC ,                          FR_RBRC ,FR_RCBR ,XXXXXXX ,FR_EURO ,FR_DIAE ,FR_PIPE ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -257,6 +259,8 @@ void clear_finished(qk_tap_dance_state_t *state, void *user_data) {
         case SINGLE_HOLD:
             clear_keyboard();
             break;
+        case DOUBLE_SINGLE_TAP:
+            unregister_code16(KC_CAPS);
     }
 }
 
@@ -265,6 +269,11 @@ void clear_reset(qk_tap_dance_state_t *state, void *user_data) {
         case SINGLE_TAP:
             unregister_code16(KC_CAPS);
             break;
+        case SINGLE_HOLD:
+            clear_keyboard();
+            break;
+        case DOUBLE_SINGLE_TAP:
+            unregister_code16(KC_CAPS);
     }
 }
 
