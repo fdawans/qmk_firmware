@@ -43,7 +43,9 @@ KC_ASRP = Report your current Auto Shift timeout value
 #define M_SFT OSM(MOD_LSFT)
 #define M_CTR OSM(MOD_LCTL)
 #define M_ALT OSM(MOD_LALT)
-#define M_WIN
+
+//Delay !
+#define M_WIN OSM(MOD_LGUI)
 
 
 // Tap Dance keycodes
@@ -53,7 +55,8 @@ enum td_keycodes {
     TABLK,
     QUOT,
     PHOM,
-    PEND
+    PEND,
+    CLR
     };
 
 // Define a type containing as many tapdance states as you need
@@ -78,6 +81,8 @@ void tablk_finished(qk_tap_dance_state_t *state, void *user_data);
 void tablk_reset(qk_tap_dance_state_t *state, void *user_data);
 void quot_finished(qk_tap_dance_state_t *state, void *user_data);
 void quot_reset(qk_tap_dance_state_t *state, void *user_data);
+void clear_finished(qk_tap_dance_state_t *state, void *user_data);
+void clear_reset(qk_tap_dance_state_t *state, void *user_data);
 //void phom_finished(qk_tap_dance_state_t *state, void *user_data);
 //void phom_reset(qk_tap_dance_state_t *state, void *user_data);
 //void pend_finished(qk_tap_dance_state_t *state, void *user_data);
@@ -94,9 +99,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      M_SYM   ,FR_A    ,FR_R    ,FR_S    ,FR_T    ,FR_G    ,FR_LPRN ,                          FR_RPRN ,FR_M    ,FR_N    ,FR_E    ,FR_I    ,FR_O    ,M_SYM   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SFT   ,FR_Z    ,FR_X    ,FR_C    ,TD(COPY),FR_V    ,KC_ESC  ,M_FN    ,        M_WIN   ,KC_TAB  ,FR_K    ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,M_SFT   ,
+     M_SFT   ,FR_Z    ,FR_X    ,FR_C    ,TD(COPY),FR_V    ,KC_ESC  ,M_FN    ,        KC_LGUI ,KC_TAB  ,FR_K    ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,M_SFT   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_ASUP ,KC_ASDN ,KC_ASRP ,KC_CAPS ,     M_ALT   ,    NAV_SPC ,KC_ENTER,        KC_DEL  ,KC_BSPC ,    M_CTR   ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
+     KC_ASUP ,KC_ASDN ,KC_ASRP ,TD(CLR) ,     M_ALT   ,    NAV_SPC ,KC_ENTER,        KC_DEL  ,KC_BSPC ,    M_CTR   ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
@@ -243,12 +248,33 @@ void quot_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void clear_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case SINGLE_TAP:
+            register_code16(KC_CAPS);
+            break;
+        case SINGLE_HOLD:
+            clear_keyboard();
+            break;
+    }
+}
+
+void clear_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case SINGLE_TAP:
+            unregister_code16(KC_CAPS);
+            break;
+    }
+}
+
 // Define `ACTION_TAP_DANCE_FN_ADVANCED()` for each tapdance keycode, passing in `finished` and `reset` functions
 qk_tap_dance_action_t tap_dance_actions[] = {
     [COPY] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, copy_finished, copy_reset),
     [TABLK] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, tablk_finished, tablk_reset),
     [QUOT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quot_finished, quot_reset),
     [PHOM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quot_finished, quot_reset),
-    [PEND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quot_finished, quot_reset)
+    [PEND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quot_finished, quot_reset),
+    [CLR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, clear_finished, clear_reset)
 
 };
