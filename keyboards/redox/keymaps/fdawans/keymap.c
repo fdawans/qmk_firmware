@@ -291,23 +291,23 @@ void eeconfig_init_user(void) {  // EEPROM is getting reset!
   // use the non noeeprom versions, to write these values to EEPROM too
   rgblight_enable(); // Enable RGB by default
   rgblight_sethsv_white();  // Set it to white by default
-  rgblight_mode(RGBLIGHT_MODE_BREATHING); // set to breathing by default
+  rgblight_mode(3); // set to breathing by default
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   rgblight_config_t rgblight_config;
   switch(biton32(state)) {
-  case "SYM":
+  case 1:
     // Green
     rgblight_enable_noeeprom();
     rgblight_sethsv_noeeprom(HSV_GREEN);
     break;
-  case "NAV":
+  case 2:
     // Red
-    rgblight_enable_noeeprom();	
+    rgblight_enable_noeeprom();
     rgblight_sethsv_noeeprom(HSV_RED);
     break;
-  case "FN":
+  case 3:
     // Blue
     rgblight_enable_noeeprom();
     rgblight_sethsv_noeeprom(HSV_BLUE);
