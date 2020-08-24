@@ -12,6 +12,6 @@
 //Auto Shift
 #pragma once
 
-#define AUTO_SHIFT_TIMEOUT 200
+#define AUTO_SHIFT_TIMEOUT 250
 #define NO_AUTO_SHIFT_SPECIAL
 #define NO_AUTO_SHIFT_NUMERIC
