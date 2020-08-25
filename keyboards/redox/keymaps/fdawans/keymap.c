@@ -57,7 +57,8 @@ enum td_keycodes {
     QUOT,
     PGHM,
     PGND,
-    CLR
+    CLR,
+    SH_M
     };
 
 // Define a type containing as many tapdance states as you need
@@ -86,6 +87,8 @@ void home_finished(qk_tap_dance_state_t *state, void *user_data);
 void home_reset(qk_tap_dance_state_t *state, void *user_data);
 void end_finished(qk_tap_dance_state_t *state, void *user_data);
 void end_reset(qk_tap_dance_state_t *state, void *user_data);
+void shiftm_finished(qk_tap_dance_state_t *state, void *user_data);
+void shiftm_reset(qk_tap_dance_state_t *state, void *user_data);
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -95,9 +98,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TAB  ,FR_Q    ,FR_W    ,FR_F    ,FR_P    ,FR_B    ,KC_EQL ,                           FR_PLUS ,FR_J    ,FR_L    ,FR_U    ,FR_Y    ,FR_SLSH ,TD(PGND),
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SYM   ,FR_A    ,FR_R    ,FR_S    ,FR_T    ,FR_G    ,FR_LPRN ,                          FR_RPRN ,FR_M    ,FR_N    ,FR_E    ,FR_I    ,FR_O    ,KC_ESC   ,
+     M_SYM   ,FR_A    ,FR_R    ,FR_S    ,FR_T    ,FR_G    ,FR_LPRN ,                          FR_RPRN ,TD(SH_M),FR_N    ,FR_E    ,FR_I    ,FR_O    ,KC_ESC  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SFT   ,FR_Z    ,FR_X    ,FR_C    ,TD(COPY),FR_V    ,KC_LGUI ,XXXXXXX ,        XXXXXXX ,M_FN    ,FR_K    ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,M_SFT   ,
+     M_SFT   ,FR_Z    ,FR_X    ,FR_C    ,FR_D    ,FR_V    ,KC_LGUI ,XXXXXXX ,        XXXXXXX ,M_FN    ,FR_K    ,FR_H    ,FR_COMM ,FR_DOT  ,FR_QUES ,M_SFT   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      KC_ASUP ,KC_ASDN ,KC_ASRP ,TD(CLR) ,     M_ALT   ,    NAV_SPC ,KC_ENTER,        KC_DEL  ,KC_BSPC ,    M_CTR   ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
@@ -306,14 +309,43 @@ void clear_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void shiftm_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case SINGLE_TAP: // KC_4 = ' on Windows FR
+            register_code16(KC_M);
+            break;
+        case SINGLE_HOLD: // Shift + KC_3 = 3 on Windows FR
+            //register_mods(MOD_BIT(KC_LSFT));
+            register_code16(KC_SCLN);
+            break;
+        case DOUBLE_SINGLE_TAP: // KC_3 = " on Windows FR
+            register_code16(KC_M);
+    }
+}
+
+void shiftm_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case SINGLE_TAP:
+            unregister_code16(KC_M);
+            break;
+        case SINGLE_HOLD:
+            //unregister_mods(MOD_BIT(KC_LSFT));
+            unregister_code16(KC_SCLN);
+            break;
+        case DOUBLE_SINGLE_TAP:
+            unregister_code16(KC_M);
+    }
+}
+
 // Define `ACTION_TAP_DANCE_FN_ADVANCED()` for each tapdance keycode, passing in `finished` and `reset` functions
 qk_tap_dance_action_t tap_dance_actions[] = {
     [COPY] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, copy_finished, copy_reset),
     [QUOT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quot_finished, quot_reset),
     [PGHM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, home_finished, home_reset),
     [PGND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, end_finished, end_reset),
-    [CLR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, clear_finished, clear_reset)
-
+    [CLR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, clear_finished, clear_reset),
+    [SH_M] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shiftm_finished, shiftm_reset)
 };
 
 void eeconfig_init_user(void) {  // EEPROM is getting reset!
