@@ -313,28 +313,28 @@ void shiftm_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case SINGLE_TAP: // KC_4 = ' on Windows BE
-            register_code16(KC_M);
+            register_code16(KC_SCLN);
             break;
         case SINGLE_HOLD: // Shift + KC_3 = 3 on Windows BE
-            //register_mods(MOD_BIT(KC_LSFT));
+            register_mods(MOD_BIT(KC_LSFT));
             register_code16(KC_SCLN);
             break;
         case DOUBLE_SINGLE_TAP: // KC_3 = " on Windows BE
-            register_code16(KC_M);
+            register_code16(KC_SCLN);
     }
 }
 
 void shiftm_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP:
-            unregister_code16(KC_M);
+            unregister_code16(KC_SCLN);
             break;
         case SINGLE_HOLD:
-            //unregister_mods(MOD_BIT(KC_LSFT));
+            unregister_mods(MOD_BIT(KC_LSFT));
             unregister_code16(KC_SCLN);
             break;
         case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_M);
+            unregister_code16(KC_SCLN);
     }
 }
 
