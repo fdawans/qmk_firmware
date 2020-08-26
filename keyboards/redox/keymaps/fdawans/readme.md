@@ -1,16 +1,15 @@
 # Custom Layout for Redox
 ## Based on Colemak DHM + French Symbols
 
+[Link to layout](http://www.keyboard-layout-editor.com/#/gists/7d99ab5455cf27feaf28daeef1806582)
 
 ## To do:
-- TapDance/Macro: Use ' x2 to make " ? Need to check Shift: https://github.com/qmk/qmk_firmware/issues/4758
-- Long press on PgUp to go Home
-- Long press on PgDwn to go End
-- ALT + TAB Custom Macro (click on one button to activate both)
+- ALT + TAB Custom Macro?
 - Check: ê (FR_CCIRC) vs FR_CIRC ^ /// ë (FR_UMLT) vs FR_DIAE ¨
-- Advanced tapdance for Redo, Undo, Cut, Copy, Paste (hold z, x, c, d, v), careful - already in autoshift!
+- Double tap for Redo, Undo, Cut, Copy, Paste (hold z, x, c, d, v)?
 - Double/triple tap to replace extra symbols (SYM layer) ($, €, ç, ù, etc.)
 - Keypress Logging & Heatmap (see: https://github.com/algernon/ergodox-layout#base-layer)
+- Adjust numbers 1...9, not on index keys?
 
 
 ## Features
