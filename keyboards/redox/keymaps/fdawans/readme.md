@@ -10,6 +10,7 @@
 - Double/triple tap to replace extra symbols (SYM layer) ($, €, ç, ù, etc.)
 - Keypress Logging & Heatmap (see: https://github.com/algernon/ergodox-layout#base-layer)
 - Adjust numbers 1...9, not on index keys?
+- Use colors for locked modifiers
 
 
 ## Features

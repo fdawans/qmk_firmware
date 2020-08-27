@@ -94,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
  [_COL] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_ESC  ,BE_AMP  ,BE_EACU ,TD(QUOT),BE_ASTR ,BE_PERC ,                                            BE_PLUS ,BE_AT   ,BE_AGRV ,BE_EGRV ,BE_UNDS ,XXXXXXX ,
+     KC_ESC  ,BE_AMP  ,BE_EACU ,TD(QUOT),BE_ASTR ,BE_PERC ,                                            BE_PLUS ,BE_AT   ,BE_AGRV ,BE_EGRV ,BE_UNDS ,TD(CLR) ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TAB  ,BE_Q    ,BE_W    ,BE_F    ,BE_P    ,BE_B    ,KC_EQL ,                           BE_MINS ,BE_J    ,BE_L    ,BE_U    ,BE_Y    ,BE_SLSH ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -102,7 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,KC_LGUI ,TD(PGND),        TD(PGHM),M_FN    ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_QUES ,M_SFT   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_ASUP ,KC_ASDN ,KC_ASRP ,TD(CLR) ,     M_ALT   ,    NAV_SPC ,KC_ENTER,        KC_DEL  ,KC_BSPC ,    M_CTR   ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
+     KC_ASUP ,KC_ASDN ,KC_ASRP ,M_ALT   ,    NAV_SPC  ,    KC_ENTER,M_ALT   ,        M_CTR   ,KC_DEL  ,    KC_BSPC ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
