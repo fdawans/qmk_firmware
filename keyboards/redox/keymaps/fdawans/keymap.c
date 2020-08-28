@@ -1,7 +1,8 @@
 
-// https://github.com/qmk/qmk_firmware/blob/master/keyboards/xd75/keymaps/french/keymap.c
-
+//for keymap
 #include "keymap_belgian.h"
+//for macros
+//#include "sendstring_belgian.h"
 #include QMK_KEYBOARD_H
 
 
@@ -61,33 +62,32 @@ enum td_keycodes {
     SH_M
     };
 
+
 enum custom_keycodes {
     USER = SAFE_RANGE,
     MAIL
 };
 
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case USER:
         if (record->event.pressed) {
-            // when keycode QMKBEST is pressed
-            SEND_STRING("u548868";
+            SEND_STRING("u548868");
         } else {
-            // when keycode QMKBEST is released
         }
         break;
 
     case MAIL:
         if (record->event.pressed) {
-            // when keycode QMKBEST is pressed
-            SEND_STRING("info@floriandawans.com";
+            SEND_STRING("infofloriandawanscom");
         } else {
-            // when keycode QMKBEST is released
         }
         break;
     }
     return true;
 };
+
 
 // Define a type containing as many tapdance states as you need
 typedef enum {
@@ -139,7 +139,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      XXXXXXX ,BE_1    ,BE_2    ,BE_3    ,BE_4    ,BE_5    ,                                            BE_6    ,BE_7    ,BE_8    ,BE_9    ,BE_0    ,XXXXXXX,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,BE_HASH ,BE_DOT  ,                          BE_UNDS ,XXXXXXX ,XXXXXXX ,BE_UGRV ,BE_CIRC ,BE_BSLS ,XXXXXXX ,
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,BE_HASH ,BE_DOT  ,                          BE_UNDS ,XXXXXXX ,XXXXXXX ,BE_UGRV ,XXXXXXX ,BE_BSLS ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,BE_LABK ,BE_RABK ,BE_DLR  ,XXXXXXX ,XXXXXXX ,BE_LBRC ,                          BE_RBRC ,XXXXXXX ,XXXXXXX ,BE_EURO ,BE_DIAE ,BE_PIPE ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -376,47 +376,46 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [SH_M] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shiftm_finished, shiftm_reset)
 };
 
-void eeconfig_init_user(void) {  // EEPROM is getting reset!
-  // use the non noeeprom versions, to write these values to EEPROM too
-  rgblight_enable(); // Enable RGB by default
-  rgblight_sethsv_white();  // Set it to white by default
-  rgblight_mode(3); // set to breathing by default
-}
-
-layer_state_t layer_state_set_user(layer_state_t state) {
-  rgblight_config_t rgblight_config;
-  switch(biton32(state)) {
-  case 1:
-    // Green
-    rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom(HSV_GREEN);
-    break;
-  case 2:
-    // Red
-    rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom(HSV_RED);
-    break;
-  case 3:
-    // Blue
-    rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom(HSV_BLUE);
-    break;
-  default:
-    // White
-    //Read RGB Light State
-    rgblight_config.raw = eeconfig_read_rgblight();
-
-    if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
-    rgblight_sethsv_at(39, 255, 255, 0);
+// Common LED indicator
+void update_led(void) {
+  // Capslock priority
+  if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
+        rgblight_enable_noeeprom();
+        rgblight_sethsv_noeeprom(HSV_WHITE);
+  } else {
+    // look layer...
+    switch (biton32(layer_state)) {
+      case _NAV:
+        rgblight_enable_noeeprom();
+        rgblight_sethsv_noeeprom(HSV_RED);
+        break;
+      case _FN:
+        rgblight_enable_noeeprom();
+        rgblight_sethsv_noeeprom(HSV_BLUE);
+        break;
+      case _SYM:
+        rgblight_enable_noeeprom();
+        rgblight_sethsv_noeeprom(HSV_GREEN);
+        break;
+      case _COL:
+        default:
+            rgblight_disable_noeeprom();
+            break;
     }
-
-    //If enabled, set white
-    if (rgblight_config.enable) {
-		rgblight_sethsv_noeeprom(HSV_WHITE);
-	} else { //Otherwise go back to disabled
-		rgblight_disable_noeeprom();
-	}
-    break;
+  }
 }
-return state;
+
+void led_set_user(uint8_t usb_led) {
+  // must be trigger to
+  // - activate capslock color
+  // - go back to the proper layer color if needed when quitting capslock
+  update_led();
+}
+
+uint32_t layer_state_set_user(uint32_t state) {
+  // must be trigger to
+  // - activate a layer color
+  // - de-activate a layer color
+  update_led();
+  return state;
 }
