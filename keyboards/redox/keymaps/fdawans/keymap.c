@@ -61,6 +61,34 @@ enum td_keycodes {
     SH_M
     };
 
+enum custom_keycodes {
+    USER = SAFE_RANGE,
+    MAIL
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+    case USER:
+        if (record->event.pressed) {
+            // when keycode QMKBEST is pressed
+            SEND_STRING("u548868";
+        } else {
+            // when keycode QMKBEST is released
+        }
+        break;
+
+    case MAIL:
+        if (record->event.pressed) {
+            // when keycode QMKBEST is pressed
+            SEND_STRING("info@floriandawans.com";
+        } else {
+            // when keycode QMKBEST is released
+        }
+        break;
+    }
+    return true;
+};
+
 // Define a type containing as many tapdance states as you need
 typedef enum {
     SINGLE_TAP,
@@ -139,9 +167,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_VOLU ,KC_F1   ,KC_F2   ,KC_F3   ,KC_F4   ,KC_F5   ,                                            KC_F6   ,KC_F7   ,KC_F8   ,KC_F9   ,KC_F10  ,KC_F11  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_VOLD ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,KC_F12  ,
+     KC_VOLD ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,XXXXXXX ,USER    ,XXXXXXX ,XXXXXXX ,KC_F12  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     RGB_TOG ,KC_ASRP ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,BE_LCBR ,                          BE_RCBR ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
+     RGB_TOG ,KC_ASRP ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,BE_LCBR ,                          BE_RCBR ,MAIL    ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_BRIU ,KC_ASUP ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
@@ -377,6 +405,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     // White
     //Read RGB Light State
     rgblight_config.raw = eeconfig_read_rgblight();
+
+    if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
+    rgblight_sethsv_at(39, 255, 255, 0);
+    }
+
     //If enabled, set white
     if (rgblight_config.enable) {
 		rgblight_sethsv_noeeprom(HSV_WHITE);
