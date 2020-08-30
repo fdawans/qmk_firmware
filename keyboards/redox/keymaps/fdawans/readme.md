@@ -8,16 +8,18 @@
 - Check: ê (FR_CCIRC) vs FR_CIRC ^ /// ë (FR_UMLT) vs FR_DIAE ¨
 - Double tap for Redo, Undo, Cut, Copy, Paste (hold z, x, c, d, v)?
 - Double/triple tap to replace extra symbols (SYM layer) ($, €, ç, ù, etc.)
-- Keypress Logging & Heatmap (see: https://github.com/algernon/ergodox-layout#base-layer)
 - Adjust numbers 1...9, not on index keys?
 - Use colors for locked modifiers
 
 
 ## Features
-1. Autoshift - on alphas, on symbols > numbers if possible
-2. Sticky Keys / Tap to activate Modifiers/Shortcuts instead of hold
-3. 4 Layers
-4. Tap Dance test for COPY & TABLK
+1. Autoshift on alphas
+2. Sticky Keys for Ctrl, Shift, Alt
+3. Tap Dance on '/", home/pgup, end/pgdn keys
+4. RGB per layer + RGB for Caps Lock (RGB on modifiers to do)
+5. Optimized for AZERTY Belgian keyboard layout on Windows
+6. Macros for email address, user name (to do)
+7. Keypress Logging & Heatmap - see: https://github.com/algernon/ergodox-layout#base-layer (to do)
 
 
 ## Layers
@@ -26,7 +28,10 @@
 3. Nav layer
 4. Function Layer
 
-One Shot Layer for Symbols & Function Layers
+## Issues
+1. Custom autoshift via TapDance for letter M (key repeat to fix)
+2. Delay while using sticky Windows key: OSM(MOD_LGUI) 
+
 
 
 ## Changelog

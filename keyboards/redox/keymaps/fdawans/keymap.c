@@ -1,15 +1,14 @@
 
+#include QMK_KEYBOARD_H
 //for keymap
 #include "keymap_belgian.h"
 //for macros
 //#include "sendstring_belgian.h"
-#include QMK_KEYBOARD_H
 
-
-// Layer shorthand
+// Layers
 #define _COL 0
-#define _SYM 1 //One Shot Key (Layer for next keypress only)
-#define _NAV 2 // Layer (keep it pressed)
+#define _SYM 1
+#define _NAV 2
 #define _FN 3
 
 //Tap once to lock layer, hold to activate layer - use TT(layer)
@@ -19,7 +18,7 @@
 #define NAV_SPC LT(_NAV, KC_SPC)
 #define NAV_BSPC LT(_NAV, KC_BSPC)
 
-//Shortcuts on NAV Layer or on Hold/Double Tap
+//Shortcuts on NAV Layer or on Double Tap
 #define KC_SEL LCTL(KC_A)
 #define KC_REDO LCTL(KC_Y)
 #define KC_UNDO LCTL(KC_Z)
@@ -32,29 +31,21 @@
 //#define FR_CCIRC ALGR(KC_9)
 //#define FR_UMLT LSFT(FR_CIRC)
 
-/*
-KC_ASDN = Lower the Auto Shift timeout variable (down)
-KC_ASUP = Raise the Auto Shift timeout variable (up)
-KC_ASRP = Report your current Auto Shift timeout value
-*/
-
 //One Shot Layers
 #define M_SYM OSL(_SYM)
 #define M_FN OSL(_FN)
 
-//One Shot Modifiers
+//One Shot Modifiers / Sticky Keys
 #define M_SFT OSM(MOD_LSFT)
 #define M_CTR OSM(MOD_LCTL)
 #define M_ALT OSM(MOD_LALT)
 
-//Delay !
+//Delay on Windows Key
 #define M_WIN OSM(MOD_LGUI)
 
-
-// Tap Dance keycodes
-// Use TD(ALT_LP) in layout to use
+// Tap Dance keycodes - Use TD(code) in layout to use
 enum td_keycodes {
-    COPY, // Our example key: `CTRL + C` when held, `D` when tapped. Add additional keycodes for each tapdance.
+    COPY,
     QUOT,
     PGHM,
     PGND,
@@ -62,25 +53,25 @@ enum td_keycodes {
     SH_M
     };
 
-
+// Custom keycodes - Macros
 enum custom_keycodes {
     USER = SAFE_RANGE,
     MAIL
 };
 
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case USER:
         if (record->event.pressed) {
-            SEND_STRING("u548868");
+            SEND_STRING(SS_LSFT("2")SS_LSFT("3")SS_LSFT("6"));
         } else {
         }
         break;
 
     case MAIL:
         if (record->event.pressed) {
-            SEND_STRING("infofloriandawanscom");
+            //SEND_STRING("infofloriandawanscom");
+            SEND_STRING("azertyuiopqsdfghjklmwxcvbn&é'(-è_çà)=+@1234567890$*ù£µ%,;:!§/.?");
         } else {
         }
         break;
@@ -88,6 +79,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
+//azertyuiopqsdfghjklmwxcvbn&é'(-è_çà)=+@1234567890$*ù£µ%,;:!§/.?
+//qwertyuiopasdfghjkl,zxcvbn7ù9)°0=+2&é"'(-è_çà485;mM1!:§)
 
 // Define a type containing as many tapdance states as you need
 typedef enum {
@@ -173,7 +166,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_BRIU ,KC_ASUP ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_BRID ,KC_ASDN ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX
+     KC_BRID ,KC_ASDN ,XXXXXXX ,USER    ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
