@@ -16,7 +16,7 @@
 #define TAPPING_TOGGLE 1
 //Activate Layer on Hold, Press Space on Tap //Backspace: KC_BSPC
 #define NAV_SPC LT(_NAV, KC_SPC)
-#define NAV_BSPC LT(_NAV, KC_BSPC)
+#define SYM_DEL LT(_SYM, KC_DEL)
 
 //Shortcuts on NAV Layer or on Double Tap
 #define KC_SEL LCTL(KC_A)
@@ -123,28 +123,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,KC_LGUI ,TD(PGND),        TD(PGHM),M_FN    ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_QUES ,M_SFT   ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,M_ALT   ,    NAV_SPC  ,    KC_ENTER,M_ALT   ,        M_CTR   ,KC_DEL  ,    KC_BSPC ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,M_ALT   ,    NAV_SPC  ,    KC_ENTER,M_ALT   ,        M_CTR   ,SYM_DEL ,    KC_BSPC ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
 
    [_SYM] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     XXXXXXX ,BE_1    ,BE_2    ,BE_3    ,BE_4    ,BE_5    ,                                            BE_6    ,BE_7    ,BE_8    ,BE_9    ,BE_0    ,XXXXXXX,
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,BE_HASH ,BE_DOT  ,                          BE_UNDS ,XXXXXXX ,XXXXXXX ,BE_UGRV ,XXXXXXX ,BE_BSLS ,XXXXXXX ,
+     XXXXXXX ,XXXXXXX ,BE_7    ,BE_8    ,BE_9    ,XXXXXXX ,XXXXXXX ,                          BE_UNDS ,XXXXXXX ,BE_HASH ,BE_UGRV ,XXXXXXX ,BE_BSLS ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,BE_LABK ,BE_RABK ,BE_DLR  ,XXXXXXX ,XXXXXXX ,BE_LBRC ,                          BE_RBRC ,XXXXXXX ,XXXXXXX ,BE_EURO ,BE_DIAE ,BE_PIPE ,_______ ,
+     _______ ,XXXXXXX ,BE_4    ,BE_5    ,BE_6    ,XXXXXXX ,BE_LBRC ,                          BE_RBRC ,BE_CCED ,BE_DLR  ,BE_EURO ,BE_DIAE ,BE_PIPE ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,BE_CCED ,XXXXXXX ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX ,XXXXXXX ,BE_SCLN ,BE_COLN ,BE_EXLM ,XXXXXXX ,
+     XXXXXXX ,XXXXXXX ,BE_1    ,BE_2    ,BE_3    ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,BE_LABK ,BE_RABK ,BE_SCLN ,BE_COLN ,BE_EXLM ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
+     XXXXXXX ,XXXXXXX ,BE_DOT  ,BE_0    ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     KC_UP   ,KC_LEFT ,KC_DOWN ,KC_RIGHT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
      [_NAV] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     XXXXXXX ,BE_1    ,BE_2    ,BE_3    ,BE_4    ,BE_5    ,                                            BE_6    ,BE_7    ,BE_8    ,BE_9    ,BE_0    ,BE_UNDS,
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,KC_PGUP ,KC_UP   ,KC_PGDN ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -158,15 +158,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
      [_FN] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_VOLU ,KC_F1   ,KC_F2   ,KC_F3   ,KC_F4   ,KC_F5   ,                                            KC_F6   ,KC_F7   ,KC_F8   ,KC_F9   ,KC_F10  ,KC_F11  ,
+     KC_VOLU ,XXXXXXX ,KC_F10  ,KC_F11  ,KC_F12  ,XXXXXXX ,                                            XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_VOLD ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,XXXXXXX ,USER    ,XXXXXXX ,XXXXXXX ,KC_F12  ,
+     KC_VOLD ,XXXXXXX ,KC_F7   ,KC_F8   ,KC_F9   ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,XXXXXXX ,USER    ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     RGB_TOG ,KC_ASRP ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,BE_LCBR ,                          BE_RCBR ,MAIL    ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
+     RGB_TOG ,KC_ASRP ,KC_F4   ,KC_F5   ,KC_F6   ,XXXXXXX ,BE_LCBR ,                          BE_RCBR ,MAIL    ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_BRIU ,KC_ASUP ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
+     KC_BRIU ,KC_ASUP ,KC_F1   ,KC_F2   ,KC_F3   ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_BRID ,KC_ASDN ,XXXXXXX ,USER    ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX
+     KC_BRID ,KC_ASDN ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
