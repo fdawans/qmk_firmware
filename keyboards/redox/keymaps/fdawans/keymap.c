@@ -3,7 +3,7 @@
 //for keymap
 #include "keymap_belgian.h"
 //for macros
-//#include "sendstring_belgian.h"
+#include "sendstring_belgian.h"
 
 // Layers
 #define _COL 0
@@ -52,22 +52,50 @@ enum td_keycodes {
 // Custom keycodes - Macros
 enum custom_keycodes {
     USER = SAFE_RANGE,
-    MAIL
+    MAIL,
+    ETREM,
+    ECIRC,
+    PASS
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case USER:
         if (record->event.pressed) {
-            SEND_STRING(SS_LSFT("2")SS_LSFT("3")SS_LSFT("6"));
+             SEND_STRING("u548868");
+        } else {
+        }
+        break;
+    case MAIL:
+        if (record->event.pressed) {
+            SEND_STRING("info"SS_DOWN(X_RALT)SS_TAP(X_0)SS_UP(X_RALT)"floriandawans.com");
+        } else {
+        }
+        break;
+    case PASS:
+        if (record->event.pressed) {
+            SEND_STRING("Bpost01");
+        } else {
+        }
+        break;
+     case ETREM:
+        if (record->event.pressed) {
+            register_mods(MOD_BIT(KC_LSFT));
+            register_code(BE_DCIR);
+            unregister_mods(MOD_BIT(KC_LSFT));
+            unregister_code(BE_DCIR);
+            register_code(BE_E);
+            unregister_code(BE_E);
         } else {
         }
         break;
 
-    case MAIL:
+    case ECIRC:
         if (record->event.pressed) {
-            //SEND_STRING("infofloriandawanscom");
-            SEND_STRING("azertyuiopqsdfghjklmwxcvbn&é'(-è_çà)=+@1234567890$*ù£µ%,;:!§/.?");
+            register_code(BE_DCIR);
+            unregister_code(BE_DCIR);
+            register_code(BE_E);
+            unregister_code(BE_E);
         } else {
         }
         break;
@@ -75,8 +103,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
-//azertyuiopqsdfghjklmwxcvbn&é'(-è_çà)=+@1234567890$*ù£µ%,;:!§/.?
-//qwertyuiopasdfghjkl,zxcvbn7ù9)°0=+2&é"'(-è_çà485;mM1!:§)
+// 1%3457ù908+;):! à&é"'(-è_çMm.=/§2 QBCDEFGHIJKL?NOPARSTUVZXYW^*$66²²° qbcdefghijkl,noparstuvzxyw¨µ£)
+// !\"#$%&'()*+,-./0123456789:;<=>?@ ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^^``_abcdefghijklmnopqrstuvwxyz{|}~~
+
 
 // Define a type containing as many tapdance states as you need
 typedef enum {
@@ -128,9 +157,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,BE_7    ,BE_8    ,BE_9    ,XXXXXXX ,XXXXXXX ,                          BE_UNDS ,XXXXXXX ,BE_HASH ,BE_UGRV ,BE_CIRC ,BE_BSLS ,XXXXXXX ,
+     XXXXXXX ,XXXXXXX ,BE_7    ,BE_8    ,BE_9    ,XXXXXXX ,XXXXXXX ,                          BE_UNDS ,XXXXXXX ,BE_HASH ,BE_UGRV ,ETREM   ,BE_BSLS ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,XXXXXXX ,BE_4    ,BE_5    ,BE_6    ,XXXXXXX ,BE_LBRC ,                          BE_RBRC ,BE_CCED ,BE_DLR  ,BE_EURO ,BE_DIAE ,BE_PIPE ,_______ ,
+     _______ ,XXXXXXX ,BE_4    ,BE_5    ,BE_6    ,XXXXXXX ,BE_LBRC ,                          BE_RBRC ,BE_CCED ,BE_DLR  ,BE_EURO ,ECIRC   ,BE_PIPE ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,BE_1    ,BE_2    ,BE_3    ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,BE_LABK ,BE_RABK ,BE_SCLN ,BE_COLN ,BE_EXLM ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
@@ -158,7 +187,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_VOLD ,XXXXXXX ,KC_F7   ,KC_F8   ,KC_F9   ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,XXXXXXX ,USER    ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     RGB_TOG ,KC_ASRP ,KC_F4   ,KC_F5   ,KC_F6   ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,MAIL    ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
+     RGB_TOG ,KC_ASRP ,KC_F4   ,KC_F5   ,KC_F6   ,XXXXXXX ,BE_LCBR ,                          BE_RCBR ,MAIL    ,XXXXXXX ,PASS    ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_BRIU ,KC_ASUP ,KC_F1   ,KC_F2   ,KC_F3   ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
