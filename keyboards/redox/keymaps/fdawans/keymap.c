@@ -52,7 +52,8 @@ enum td_keycodes {
 // Custom keycodes - Macros
 enum custom_keycodes {
     USER = SAFE_RANGE,
-    MAIL,
+    MAILP,
+    MAILB,
     ETREM,
     ECIRC,
     PASS
@@ -66,9 +67,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
         }
         break;
-    case MAIL:
+    case MAILP:
         if (record->event.pressed) {
             SEND_STRING("info"SS_DOWN(X_RALT)SS_TAP(X_0)SS_UP(X_RALT)"floriandawans.com");
+        } else {
+        }
+        break;
+    case MAILB:
+        if (record->event.pressed) {
+            SEND_STRING("florian.dawans"SS_DOWN(X_RALT)SS_TAP(X_0)SS_UP(X_RALT)"bpost.be");
         } else {
         }
         break;
@@ -148,7 +155,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,KC_LGUI ,TD(PGND),        TD(PGHM),M_FN    ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EGRV ,KC_PASTE,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,M_ALT   ,    NAV_SPC  ,    KC_ENTER,M_ALT   ,        M_CTR   ,SYM_DEL ,    KC_BSPC ,     BE_EACU ,TD(CLR) ,XXXXXXX ,KC_CUT  ,
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,M_ALT   ,    NAV_SPC  ,    KC_ENTER,M_ALT   ,        M_CTR   ,SYM_DEL ,    KC_BSPC ,     BE_EACU ,TD(CLR) ,KC_SEL  ,KC_CUT  ,
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
@@ -187,7 +194,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_VOLD ,XXXXXXX ,KC_F7   ,KC_F8   ,KC_F9   ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,XXXXXXX ,USER    ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     RGB_TOG ,KC_ASRP ,KC_F4   ,KC_F5   ,KC_F6   ,XXXXXXX ,BE_LCBR ,                          BE_RCBR ,MAIL    ,XXXXXXX ,PASS    ,XXXXXXX ,XXXXXXX ,_______ ,
+     RGB_TOG ,KC_ASRP ,KC_F4   ,KC_F5   ,KC_F6   ,XXXXXXX ,BE_LCBR ,                          BE_RCBR ,MAILP   ,MAILB   ,PASS    ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_BRIU ,KC_ASUP ,KC_F1   ,KC_F2   ,KC_F3   ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
