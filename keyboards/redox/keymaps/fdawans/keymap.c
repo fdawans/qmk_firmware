@@ -55,7 +55,7 @@ enum custom_keycodes {
     MAILP,
     MAILB,
     ETREM,
-    UTREM,
+    UCIRC,
     ECIRC,
     PASS,
     ALTF4,
@@ -113,11 +113,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
         }
         break;
-    case UTREM:
+    case UCIRC:
         if (record->event.pressed) {
-            register_mods(MOD_BIT(KC_LSFT));
             register_code(BE_DCIR);
-            unregister_mods(MOD_BIT(KC_LSFT));
             unregister_code(BE_DCIR);
             register_code(BE_U);
             unregister_code(BE_U);
@@ -196,13 +194,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
    [_SYM] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,BE_BSLS ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,BE_AT   ,BE_7    ,BE_8    ,BE_9    ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,BE_CIRC ,BE_HASH ,BE_UGRV ,ETREM   ,BE_BSLS ,XXXXXXX ,
+     XXXXXXX ,BE_AMP   ,BE_7    ,BE_8    ,BE_9    ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,BE_CIRC ,BE_HASH ,BE_UGRV ,UCIRC   ,ETREM   ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,BE_AGRV ,BE_4    ,BE_5    ,BE_6    ,XXXXXXX ,BE_LBRC ,                          BE_RBRC ,BE_CCED ,BE_DLR  ,BE_EURO ,ECIRC   ,BE_PIPE ,_______ ,
+     _______ ,BE_AGRV ,BE_4    ,BE_5    ,BE_6    ,XXXXXXX ,BE_LBRC ,                          BE_RBRC ,BE_CCED ,BE_DLR  ,BE_EURO ,BE_PIPE ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,BE_AMP  ,BE_1    ,BE_2    ,BE_3    ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,BE_LABK ,BE_RABK ,BE_SCLN ,BE_COLN ,XXXXXXX ,XXXXXXX ,
+     XXXXXXX ,BE_AT   ,BE_1    ,BE_2    ,BE_3    ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,BE_LABK ,BE_RABK ,BE_SCLN ,BE_COLN ,ECIRC   ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,BE_DOT  ,BE_0    ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     BE_EXLM ,XXXXXXX ,XXXXXXX ,XXXXXXX
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
