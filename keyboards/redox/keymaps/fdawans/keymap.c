@@ -55,6 +55,7 @@ enum custom_keycodes {
     MAILP,
     MAILB,
     ETREM,
+    UTREM,
     ECIRC,
     PASS,
     ALTF4
@@ -71,13 +72,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         break;
     case MAILP:
         if (record->event.pressed) {
-            SEND_STRING("info"SS_DOWN(X_RALT)SS_TAP(X_0)SS_UP(X_RALT)"floriandawans.com");
+            // press alt then key 2 on qwerty then release alt to get @ on azerty BE
+            SEND_STRING("info"SS_DOWN(X_RALT)SS_TAP(X_2)SS_UP(X_RALT)"floriandawans.com");
         } else {
         }
         break;
     case MAILB:
         if (record->event.pressed) {
-            SEND_STRING("florian.dawans"SS_DOWN(X_RALT)SS_TAP(X_0)SS_UP(X_RALT)"bpost.be");
+            SEND_STRING("florian.dawans"SS_DOWN(X_RALT)SS_TAP(X_2)SS_UP(X_RALT)"bpost.be");
         } else {
         }
         break;
@@ -104,6 +106,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
         }
         break;
+    case UTREM:
+        if (record->event.pressed) {
+            register_mods(MOD_BIT(KC_LSFT));
+            register_code(BE_DCIR);
+            unregister_mods(MOD_BIT(KC_LSFT));
+            unregister_code(BE_DCIR);
+            register_code(BE_U);
+            unregister_code(BE_U);
+        } else {
+        }
+        break;
 
     case ECIRC:
         if (record->event.pressed) {
@@ -127,10 +140,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 };
-
-// 1%3457ù908+;):! à&é"'(-è_çMm.=/§2 QBCDEFGHIJKL?NOPARSTUVZXYW^*$66²²° qbcdefghijkl,noparstuvzxyw¨µ£)
-// !\"#$%&'()*+,-./0123456789:;<=>?@ ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^^``_abcdefghijklmnopqrstuvwxyz{|}~~
-
 
 // Define a type containing as many tapdance states as you need
 typedef enum {
@@ -419,6 +428,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [PGND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, end_finished, end_reset),
     [CLR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, clear_finished, clear_reset),
     [SH_M] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shiftm_finished, shiftm_reset)
+    //[M] =  ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, shiftm_finished, shiftm_reset,)
+     //[ETC] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(cycleEtc, NULL, NULL, 800),
 };
 
 // Common LED indicator
