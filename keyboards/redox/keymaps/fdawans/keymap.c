@@ -12,7 +12,6 @@
 #define _NAV 3
 #define _FN 4
 
-//Tap once to lock layer, hold to activate layer - use TT(layer)
 //Used for _SYM Layer (Lock Numbers) & _FN Layer (Lock Function Keys)
 #define TAPPING_TOGGLE 1
 
@@ -28,12 +27,18 @@
 #define KC_CUT LCTL(KC_X)
 #define KC_PASTE LCTL(KC_V)
 
-//One Shot Layers
+//One Shot Layers / Sticky Keys
+//Press to switch layer for the next key
+//Hold to keep layer on
 #define M_SYM OSL(_SYM)
-#define M_FN TT(_FN)
+#define M_FN OSL(_FN)
+
+//Switch to layer and stay on it until key is press again
 #define M_LOCK TG(_LOCK)
 
 //One Shot Modifiers / Sticky Keys
+//Press to apply modifier for the next key
+//Hold to keep modifier on
 #define M_SFT OSM(MOD_LSFT)
 #define M_CTR OSM(MOD_LCTL)
 #define M_ALT OSM(MOD_LALT)
@@ -51,6 +56,10 @@ enum td_keycodes {
     SH_M
     };
 
+//Variables for Auto Key Press
+static uint32_t key_timer = 0;
+static bool key_trigger = false;
+
 // Custom keycodes - Macros
 enum custom_keycodes {
     USER = SAFE_RANGE,
@@ -62,7 +71,8 @@ enum custom_keycodes {
     PASS,
     ALTF4,
     PHONE,
-    LOGIN
+    LOGIN,
+    AUTO_KEY
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -144,6 +154,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
         }
         break;
+
+    case AUTO_KEY:
+            if (record->event.pressed) {
+                key_trigger ^= true;
+            }
+            break;
     }
     return true;
 };
@@ -237,7 +253,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
      [_FN] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_VOLU ,XXXXXXX ,KC_F10  ,KC_F11  ,KC_F12  ,XXXXXXX ,                                            XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
+     KC_VOLU ,XXXXXXX ,KC_F10  ,KC_F11  ,KC_F12  ,XXXXXXX ,                                            AUTO_KEY,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_VOLD ,XXXXXXX ,KC_F7   ,KC_F8   ,KC_F9   ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,XXXXXXX ,USER    ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -499,4 +515,11 @@ uint32_t layer_state_set_user(uint32_t state) {
   // - de-activate a layer color
   update_led();
   return state;
+}
+
+void matrix_scan_user(void) {
+    if (timer_elapsed32(key_timer) > 29900) { // 30000 = 30 seconds
+        key_timer = timer_read32();  // resets timer
+        if (key_trigger) tap_code(KC_NO); // tap if enabled
+    }
 }
