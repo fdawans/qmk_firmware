@@ -17,15 +17,19 @@
 
 //Activate Layer on Hold, Press Space on Tap //Backspace: KC_BSPC
 #define NAV_SPC LT(_NAV, KC_SPC)
-#define SYM_DEL LT(_SYM, KC_DEL)
+#define FN_DEL LT(_FN, KC_DEL)
+
+//Mod-tap
+#define WIN_ENT RWIN_T(KC_ENTER) //Win on Hold, Enter on Tap
+#define ALT_WOX ALT_T(KC_PAST) //Alt on Hold, Numpad * on Tap (Wox)
 
 //Shortcuts on NAV Layer or on Double Tap
-#define KC_SEL LCTL(KC_Q) // Ctrl + A in AZERTY
-#define KC_REDO LCTL(KC_Y)
-#define KC_UNDO LCTL(KC_W) //Ctrl + Z in AZERTY
-#define KC_COPY LCTL(KC_C)
-#define KC_CUT LCTL(KC_X)
-#define KC_PASTE LCTL(KC_V)
+#define SEL LCTL(KC_Q) // Ctrl + A in AZERTY
+#define REDO LCTL(KC_Y)
+#define UNDO LCTL(KC_W) //Ctrl + Z in AZERTY
+#define COPY LCTL(KC_C)
+#define CUT LCTL(KC_X)
+#define PASTE LCTL(KC_V)
 
 //One Shot Layers / Sticky Keys
 //Press to switch layer for the next key
@@ -43,8 +47,19 @@
 #define M_CTR OSM(MOD_LCTL)
 #define M_ALT OSM(MOD_LALT)
 
+//Own programs
+#define DITTO KC_PSLS // Numpad '/'
+#define CHEAT KC_INS
+
+//Change Virtual Desktops
+#define DESK_R LCTL(LWIN(KC_RIGHT))
+#define DESK_L LCTL(LWIN(KC_LEFT))
+
+//Task Manager - Control Shift Esc
+#define TASK RCS(KC_ESC))
+
 //Delay on Windows Key
-#define M_WIN OSM(MOD_LGUI)
+//#define M_WIN OSM(MOD_LGUI)
 
 // Tap Dance keycodes - Use TD(code) in layout to use
 enum td_keycodes {
@@ -203,9 +218,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      M_SYM   ,BE_A    ,BE_R    ,BE_S    ,BE_T    ,BE_G    ,BE_LPRN ,                          BE_RPRN ,TD(SH_M),BE_N    ,BE_E    ,BE_I    ,BE_O    ,KC_COPY ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,KC_LGUI ,TD(PGND),        TD(PGHM),M_FN    ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EACU ,KC_PASTE,
+     M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,CHEAT   ,DESK_L  ,        DESK_R  ,DITTO   ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EACU ,KC_PASTE,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     ALTF4   ,XXXXXXX ,M_LOCK  ,M_ALT   ,    NAV_SPC  ,    KC_ENTER,M_ALT   ,        M_CTR   ,SYM_DEL ,    KC_BSPC ,     BE_QUES ,TD(CLR) ,KC_SEL  ,KC_CUT
+     ALTF4   ,TASK    ,M_LOCK  ,M_ALT   ,    NAV_SPC  ,    WIN_ENT ,M_ALT   ,        M_CTR   ,FN_DEL  ,    KC_BSPC ,     BE_QUES ,TD(CLR) ,KC_SEL  ,KC_CUT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
@@ -241,11 +256,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,KC_PGUP ,KC_UP   ,KC_PGDN ,XXXXXXX ,XXXXXXX ,
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,KC_RWIN ,KC_ESC  ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,KC_PGUP ,KC_UP   ,KC_PGDN ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_SEL  ,KC_TAB  ,KC_LSFT ,KC_LCTRL,KC_LALT ,BE_LCBR ,                          BE_RCBR ,XXXXXXX ,KC_LEFT ,KC_DOWN ,KC_RIGHT,XXXXXXX ,_______ ,
+     _______ ,SEL     ,KC_TAB  ,KC_LSFT ,KC_LCTRL,KC_LALT ,BE_LCBR ,                          BE_RCBR ,XXXXXXX ,KC_LEFT ,KC_DOWN ,KC_RIGHT,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,KC_REDO ,KC_UNDO ,KC_CUT  ,KC_COPY ,KC_PASTE,_______ ,_______ ,        _______ ,_______ ,XXXXXXX ,KC_HOME ,XXXXXXX ,KC_END  ,XXXXXXX ,XXXXXXX ,
+     XXXXXXX ,REDO    ,UNDO     ,CUT    ,COPY    ,PASTE   ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX ,KC_HOME ,XXXXXXX ,KC_END  ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
@@ -403,26 +418,26 @@ void clear_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case SINGLE_TAP:
-            register_code16(KC_CAPS);
+            register_code16(KC_INS);
             break;
         case SINGLE_HOLD:
             clear_keyboard();
             break;
         case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_CAPS);
+            unregister_code16(KC_INS);
     }
 }
 
 void clear_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP:
-            unregister_code16(KC_CAPS);
+            unregister_code16(KC_INS);
             break;
         case SINGLE_HOLD:
             clear_keyboard();
             break;
         case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_CAPS);
+            unregister_code16(KC_INS);
     }
 }
 
