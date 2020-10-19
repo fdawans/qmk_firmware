@@ -18,6 +18,7 @@
 //Activate Layer on Hold, Press Space on Tap //Backspace: KC_BSPC
 #define NAV_SPC LT(_NAV, KC_SPC)
 #define FN_DEL LT(_FN, KC_DEL)
+#define SYM_BSPC LT(_SYM, KC_BSPC)
 
 //Mod-tap
 #define WIN_ENT RWIN_T(KC_ENTER) //Win on Hold, Enter on Tap
@@ -212,15 +213,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
  [_COL] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_ESC  ,XXXXXXX ,XXXXXXX ,TD(QUOT),BE_UNDS ,BE_PERC ,                                            BE_ASTR ,BE_MINS ,BE_SLSH ,XXXXXXX ,XXXXXXX ,KC_BTN2 ,
+     TD(CLR) ,XXXXXXX ,BE_PERC ,TD(QUOT),_______ ,BE_UNDS ,                                            BE_MINS ,_______ ,BE_SLSH ,BE_ASTR ,XXXXXXX ,KC_BTN2 ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TAB  ,BE_Q    ,BE_W    ,BE_F    ,BE_P    ,BE_B    ,BE_EQL  ,                          BE_PLUS ,BE_J    ,BE_L    ,BE_U    ,BE_Y    ,BE_EGRV ,KC_BTN1 ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      M_SYM   ,BE_A    ,BE_R    ,BE_S    ,BE_T    ,BE_G    ,BE_LPRN ,                          BE_RPRN ,TD(SH_M),BE_N    ,BE_E    ,BE_I    ,BE_O    ,_COPY   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,CHEAT   ,DESK_L  ,        DESK_R  ,DITTO   ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EACU ,_PASTE  ,
+     M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,M_LOCK  ,DESK_L  ,        DESK_R  ,DITTO   ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EACU ,_PASTE  ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     ALTF4   ,TASK    ,M_LOCK  ,ALT_WOX ,    NAV_SPC  ,    WIN_ENT ,M_ALT   ,        M_CTR   ,FN_DEL  ,    KC_BSPC ,     BE_QUES ,TD(CLR) ,_SEL    ,_CUT
+     ALTF4   ,TASK    ,XXXXXXX ,ALT_WOX ,    NAV_SPC  ,    WIN_ENT ,M_ALT   ,        M_CTR   ,FN_DEL  ,   SYM_BSPC ,     BE_QUES ,TD(CLR) ,_SEL    ,_CUT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
@@ -228,7 +229,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
      [_LOCK] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     _______ ,XXXXXXX ,XXXXXXX ,TD(QUOT),BE_UNDS ,BE_PERC ,                                            BE_ASTR ,BE_MINS ,BE_SLSH ,XXXXXXX ,XXXXXXX ,_______ ,
+     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                                            _______ ,_______ ,BE_SLSH ,_______ ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,S(BE_Q) ,S(BE_W) ,S(BE_F) ,S(BE_P) ,S(BE_B) ,BE_EQL  ,                          BE_PLUS ,S(BE_J) ,S(BE_L) ,S(BE_U) ,S(BE_Y) ,BE_EGRV ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -242,7 +243,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
    [_SYM] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,BE_BSLS ,XXXXXXX ,XXXXXXX ,_______ ,
+     _______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,BE_BSLS ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,BE_AMP  ,BE_7    ,BE_8    ,BE_9    ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,BE_CIRC ,BE_HASH ,BE_UGRV ,UCIRC   ,ETREM   ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -256,7 +257,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
      [_NAV] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
+     _______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,XXXXXXX ,KC_RWIN ,KC_ESC  ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,KC_PGUP ,KC_UP   ,KC_PGDN ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -270,11 +271,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
      [_FN] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_VOLU ,XXXXXXX ,KC_F10  ,KC_F11  ,KC_F12  ,XXXXXXX ,                                            AUTO_KEY,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
+     _______ ,XXXXXXX ,KC_F10  ,KC_F11  ,KC_F12  ,XXXXXXX ,                                            AUTO_KEY,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_VOLD ,XXXXXXX ,KC_F7   ,KC_F8   ,KC_F9   ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,XXXXXXX ,USER    ,XXXXXXX ,XXXXXXX ,_______ ,
+     KC_VOLU ,XXXXXXX ,KC_F7   ,KC_F8   ,KC_F9   ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,XXXXXXX ,USER    ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     RGB_TOG ,KC_ASRP ,KC_F4   ,KC_F5   ,KC_F6   ,XXXXXXX ,BE_LCBR ,                          BE_RCBR ,MAILP   ,MAILB   ,PASS    ,XXXXXXX ,XXXXXXX ,_______ ,
+     KC_VOLD ,KC_ASRP ,KC_F4   ,KC_F5   ,KC_F6   ,XXXXXXX ,BE_LCBR ,                          BE_RCBR ,MAILP   ,MAILB   ,PASS    ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_BRIU ,KC_ASUP ,KC_F1   ,KC_F2   ,KC_F3   ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX ,XXXXXXX ,LOGIN   ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
@@ -420,26 +421,26 @@ void clear_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case SINGLE_TAP:
-            register_code16(KC_INS);
+            register_code16(KC_ESC);
             break;
         case SINGLE_HOLD:
             clear_keyboard();
             break;
         case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_INS);
+            unregister_code16(KC_ESC);
     }
 }
 
 void clear_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP:
-            unregister_code16(KC_INS);
+            unregister_code16(KC_ESC);
             break;
         case SINGLE_HOLD:
             clear_keyboard();
             break;
         case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_INS);
+            unregister_code16(KC_ESC);
     }
 }
 
