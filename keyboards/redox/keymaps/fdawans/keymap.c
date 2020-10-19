@@ -67,8 +67,10 @@
 enum td_keycodes {
     COPY,
     QUOT,
-    PGHM,
-    PGND,
+    HOME,
+    END,
+    PGUP,
+    PGDN,
     CLR,
     SH_M
     };
@@ -260,11 +262,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,KC_RWIN ,KC_ESC  ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,KC_PGUP ,KC_UP   ,KC_PGDN ,XXXXXXX ,_______ ,
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,KC_RWIN ,KC_ESC  ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,PGUP    ,KC_UP   ,PGDN    ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,_SEL    ,KC_TAB  ,KC_LSFT ,KC_LCTRL,KC_LALT ,BE_LCBR ,                          BE_RCBR ,XXXXXXX ,KC_LEFT ,KC_DOWN ,KC_RIGHT,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,_UNDO   ,_REDO   ,_CUT    ,_COPY   ,_PASTE   ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX ,KC_HOME ,XXXXXXX ,KC_END  ,XXXXXXX ,_______ ,
+     XXXXXXX ,_UNDO   ,_REDO   ,_CUT    ,_COPY   ,_PASTE   ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX,HOME    ,XXXXXXX ,END     ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
@@ -335,28 +337,28 @@ void home_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case SINGLE_TAP:
-            register_code16(KC_PGUP);
+            register_code16(KC_HOME);
             break;
         case SINGLE_HOLD:
-            //register_mods(MOD_BIT(KC_LCTL));
+            register_mods(MOD_BIT(KC_LCTL));
             register_code16(KC_HOME);
             break;
         case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
-            register_code16(KC_PGUP);
+            register_code16(KC_HOME);
     }
 }
 
 void home_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP:
-            unregister_code16(KC_PGUP);
+            unregister_code16(KC_HOME);
             break;
         case SINGLE_HOLD:
-            //unregister_mods(MOD_BIT(KC_LCTL));
+            unregister_mods(MOD_BIT(KC_LCTL));
             unregister_code16(KC_HOME);
             break;
         case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_PGUP);
+            unregister_code16(KC_HOME);
     }
 }
 
@@ -364,25 +366,82 @@ void end_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case SINGLE_TAP:
-            register_code16(KC_PGDN);
+            register_code16(KC_END);
             break;
         case SINGLE_HOLD:
-            //register_mods(MOD_BIT(KC_LCTL));
+            register_mods(MOD_BIT(KC_LCTL));
             register_code16(KC_END);
             break;
         case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
-            register_code16(KC_PGDN);
+            register_code16(KC_END);
     }
 }
 
 void end_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP:
-            unregister_code16(KC_PGDN);
+            unregister_code16(KC_END);
             break;
         case SINGLE_HOLD:
             //unregister_mods(MOD_BIT(KC_LCTL));
             unregister_code16(KC_END);
+            break;
+        case DOUBLE_SINGLE_TAP:
+            unregister_code16(KC_END);
+    }
+}
+
+void pgup_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case SINGLE_TAP:
+            register_code16(KC_PGUP);
+            break;
+        case SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_LCTL));
+            register_code16(KC_PGUP);
+            break;
+        case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+            register_code16(KC_PGUP);
+    }
+}
+
+void pgup_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case SINGLE_TAP:
+            unregister_code16(KC_PGUP);
+            break;
+        case SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LCTL));
+            unregister_code16(KC_PGUP);
+            break;
+        case DOUBLE_SINGLE_TAP:
+            unregister_code16(KC_PGUP);
+    }
+}
+void pgdn_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case SINGLE_TAP:
+            register_code16(KC_PGDN);
+            break;
+        case SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_LCTL));
+            register_code16(KC_PGDN);
+            break;
+        case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+            register_code16(KC_PGDN);
+    }
+}
+
+void pgdn_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case SINGLE_TAP:
+            unregister_code16(KC_PGDN);
+            break;
+        case SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LCTL));
+            unregister_code16(KC_PGDN);
             break;
         case DOUBLE_SINGLE_TAP:
             unregister_code16(KC_PGDN);
@@ -480,8 +539,10 @@ void shiftm_reset(qk_tap_dance_state_t *state, void *user_data) {
 qk_tap_dance_action_t tap_dance_actions[] = {
     [COPY] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, copy_finished, copy_reset),
     [QUOT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quot_finished, quot_reset),
-    [PGHM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, home_finished, home_reset),
-    [PGND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, end_finished, end_reset),
+    [HOME] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, home_finished, home_reset),
+    [END] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, end_finished, end_reset),
+    [PGUP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, pgup_finished, pgup_reset),
+    [PGDN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, pgdn_finished, pgdn_reset),
     [CLR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, clear_finished, clear_reset),
     [SH_M] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shiftm_finished, shiftm_reset)
     //[M] =  ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, shiftm_finished, shiftm_reset,)
