@@ -2,12 +2,12 @@
 #include QMK_KEYBOARD_H
 //for keymap
 #include "keymap_belgian.h"
-//for macros
+//for macros using Belgian keymap
 #include "sendstring_belgian.h"
 
 // Layers
 #define _COL 0
-#define _LOCK 1
+#define _CAPS 1
 #define _SYM 2
 #define _NAV 3
 #define _FN 4
@@ -35,11 +35,12 @@
 //One Shot Layers / Sticky Keys
 //Press to switch layer for the next key
 //Hold to keep layer on
-#define M_SYM OSL(_SYM)
-#define M_FN OSL(_FN)
+//#define M_SYM OSL(_SYM)
+//#define M_FN OSL(_FN)
 
 //Switch to layer and stay on it until key is press again
-#define M_LOCK TG(_LOCK)
+#define LK_CAPS TG(_CAPS)
+#define LK_SYM TG(_SYM)
 
 //One Shot Modifiers / Sticky Keys
 //Press to apply modifier for the next key
@@ -57,8 +58,8 @@
 #define DESK_L LCTL(LWIN(KC_LEFT))
 
 //Task Manager - Control Shift Esc
-#define TASK RCTL(RSFT(KC_ESC))
-#define SNIP LSFT(LWIN(KC_S))
+#define TASK LCTL(LSFT(KC_ESC))
+#define SNIP LWIN(LSFT(KC_S))
 
 //Delay on Windows Key
 //#define M_WIN OSM(MOD_LGUI)
@@ -67,8 +68,8 @@
 enum td_keycodes {
     COPY,
     QUOT,
-    HOME,
-    END,
+    HOMCTR,
+    ENDCTR,
     PGUP,
     PGDN,
     CLR,
@@ -220,9 +221,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TAB  ,BE_Q    ,BE_W    ,BE_F    ,BE_P    ,BE_B    ,BE_EQL  ,                          BE_PLUS ,BE_J    ,BE_L    ,BE_U    ,BE_Y    ,BE_EGRV ,KC_BTN1 ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SYM   ,BE_A    ,BE_R    ,BE_S    ,BE_T    ,BE_G    ,BE_LPRN ,                          BE_RPRN ,TD(SH_M),BE_N    ,BE_E    ,BE_I    ,BE_O    ,_COPY   ,
+     LK_SYM  ,BE_A    ,BE_R    ,BE_S    ,BE_T    ,BE_G    ,BE_LPRN ,                          BE_RPRN ,TD(SH_M),BE_N    ,BE_E    ,BE_I    ,BE_O    ,_COPY   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,M_LOCK  ,DESK_L  ,        DESK_R  ,DITTO   ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EACU ,_PASTE  ,
+     M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,LK_CAPS ,_______ ,        _______ ,DITTO   ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EACU ,_PASTE  ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      ALTF4   ,TASK    ,SNIP    ,ALT_WOX ,    NAV_SPC  ,    WIN_ENT ,M_ALT   ,        M_CTR   ,FN_DEL  ,   SYM_BSPC ,     BE_QUES ,TD(CLR) ,_SEL    ,_CUT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
@@ -230,7 +231,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 
-     [_LOCK] = LAYOUT(
+     [_CAPS] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                                            _______ ,_______ ,BE_SLSH ,_______ ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -262,11 +263,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,KC_RWIN ,KC_ESC  ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,PGUP    ,KC_UP   ,PGDN    ,XXXXXXX ,_______ ,
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,KC_RWIN ,KC_ESC  ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,KC_PGUP ,KC_UP   ,KC_PGDN ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,_SEL    ,KC_TAB  ,KC_LSFT ,KC_LCTRL,KC_LALT ,BE_LCBR ,                          BE_RCBR ,XXXXXXX ,KC_LEFT ,KC_DOWN ,KC_RIGHT,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,_UNDO   ,_REDO   ,_CUT    ,_COPY   ,_PASTE   ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX,HOME    ,XXXXXXX ,END     ,XXXXXXX ,_______ ,
+     XXXXXXX ,_UNDO   ,_REDO   ,_CUT    ,_COPY   ,_PASTE   ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX,KC_HOME ,XXXXXXX ,KC_END  ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
@@ -280,7 +281,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_VOLD ,KC_ASRP ,KC_F4   ,KC_F5   ,KC_F6   ,XXXXXXX ,BE_LCBR ,                          BE_RCBR ,MAILP   ,MAILB   ,PASS    ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_BRIU ,KC_ASUP ,KC_F1   ,KC_F2   ,KC_F3   ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX ,XXXXXXX ,LOGIN   ,XXXXXXX ,XXXXXXX ,_______ ,
+     KC_BRIU ,KC_ASUP ,KC_F1   ,KC_F2   ,KC_F3   ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,DESK_L  ,DESK_R  ,LOGIN   ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      KC_BRID ,KC_ASDN ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     PHONE   ,XXXXXXX ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
@@ -383,7 +384,7 @@ void end_reset(qk_tap_dance_state_t *state, void *user_data) {
             unregister_code16(KC_END);
             break;
         case SINGLE_HOLD:
-            //unregister_mods(MOD_BIT(KC_LCTL));
+            unregister_mods(MOD_BIT(KC_LCTL));
             unregister_code16(KC_END);
             break;
         case DOUBLE_SINGLE_TAP:
@@ -539,8 +540,8 @@ void shiftm_reset(qk_tap_dance_state_t *state, void *user_data) {
 qk_tap_dance_action_t tap_dance_actions[] = {
     [COPY] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, copy_finished, copy_reset),
     [QUOT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quot_finished, quot_reset),
-    [HOME] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, home_finished, home_reset),
-    [END] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, end_finished, end_reset),
+    [HOMCTR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, home_finished, home_reset),
+    [ENDCTR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, end_finished, end_reset),
     [PGUP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, pgup_finished, pgup_reset),
     [PGDN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, pgdn_finished, pgdn_reset),
     [CLR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, clear_finished, clear_reset),
@@ -570,7 +571,7 @@ void update_led(void) {
         rgblight_enable_noeeprom();
         rgblight_sethsv_noeeprom(HSV_GREEN);
         break;
-    case _LOCK:
+      case _CAPS:
         rgblight_enable_noeeprom();
         rgblight_sethsv_noeeprom(HSV_WHITE);
         break;
