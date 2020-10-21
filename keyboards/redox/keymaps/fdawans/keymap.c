@@ -13,7 +13,7 @@
 #define _FN 4
 
 //Used for _SYM Layer (Lock Numbers) & _FN Layer (Lock Function Keys)
-#define TAPPING_TOGGLE 1
+//#define TAPPING_TOGGLE 1
 
 //Activate Layer on Hold, Press Space on Tap //Backspace: KC_BSPC
 #define NAV_SPC LT(_NAV, KC_SPC)
@@ -57,8 +57,15 @@
 #define DESK_R LCTL(LWIN(KC_RIGHT))
 #define DESK_L LCTL(LWIN(KC_LEFT))
 
-//Task Manager - Control Shift Esc
-#define TASK LCTL(LSFT(KC_ESC))
+// Quit current app
+#define QUIT LALT(KC_F4)
+// Go to last app - (Alt + Tab)
+#define LAST LALT(KC_TAB)
+// Go to next & previous tab (Firefox, VSCode)
+#define NX_TAB LCTL(KC_PGUP)
+#define PV_TAB LCTL(KC_PGDN)
+//Task Manager & Snipping Tool
+#define TASKM LCTL(LSFT(KC_ESC))
 #define SNIP LWIN(LSFT(KC_S))
 
 //Delay on Windows Key
@@ -66,12 +73,7 @@
 
 // Tap Dance keycodes - Use TD(code) in layout to use
 enum td_keycodes {
-    COPY,
     QUOT,
-    HOMCTR,
-    ENDCTR,
-    PGUP,
-    PGDN,
     CLR,
     SH_M
     };
@@ -89,9 +91,9 @@ enum custom_keycodes {
     UCIRC,
     ECIRC,
     PASS,
-    ALTF4,
     PHONE,
     LOGIN,
+    MINI,
     AUTO_KEY
 };
 
@@ -164,17 +166,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
         }
         break;
-
-    case ALTF4:
+    case MINI: //Minimize current app (Alt + Space + N)
         if (record->event.pressed) {
             register_mods(MOD_BIT(KC_LALT));
-            register_code(KC_F4);
+            register_code(KC_SPC);
             unregister_mods(MOD_BIT(KC_LALT));
-            unregister_code(KC_F4);
+            unregister_code(KC_SPC);
+            register_code(BE_N);
+            unregister_code(BE_N);
         } else {
         }
         break;
-
     case AUTO_KEY:
             if (record->event.pressed) {
                 key_trigger ^= true;
@@ -200,16 +202,10 @@ static td_state_t td_state;
 uint8_t cur_dance(qk_tap_dance_state_t *state);
 
 // `finished` and `reset` functions for each tapdance keycode
-void copy_finished(qk_tap_dance_state_t *state, void *user_data);
-void copy_reset(qk_tap_dance_state_t *state, void *user_data);
 void quot_finished(qk_tap_dance_state_t *state, void *user_data);
 void quot_reset(qk_tap_dance_state_t *state, void *user_data);
 void clear_finished(qk_tap_dance_state_t *state, void *user_data);
 void clear_reset(qk_tap_dance_state_t *state, void *user_data);
-void home_finished(qk_tap_dance_state_t *state, void *user_data);
-void home_reset(qk_tap_dance_state_t *state, void *user_data);
-void end_finished(qk_tap_dance_state_t *state, void *user_data);
-void end_reset(qk_tap_dance_state_t *state, void *user_data);
 void shiftm_finished(qk_tap_dance_state_t *state, void *user_data);
 void shiftm_reset(qk_tap_dance_state_t *state, void *user_data);
 
@@ -217,23 +213,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
  [_COL] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     TD(CLR) ,XXXXXXX ,BE_PERC ,TD(QUOT),_______ ,BE_UNDS ,                                            BE_MINS ,_______ ,BE_SLSH ,BE_ASTR ,XXXXXXX ,KC_BTN2 ,
+     TD(CLR) ,_______ ,BE_PERC ,TD(QUOT),_______ ,BE_UNDS ,                                            BE_MINS ,_______ ,BE_SLSH ,BE_ASTR ,_______ ,KC_BTN2 ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TAB  ,BE_Q    ,BE_W    ,BE_F    ,BE_P    ,BE_B    ,BE_EQL  ,                          BE_PLUS ,BE_J    ,BE_L    ,BE_U    ,BE_Y    ,BE_EGRV ,KC_BTN1 ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     LK_SYM  ,BE_A    ,BE_R    ,BE_S    ,BE_T    ,BE_G    ,BE_LPRN ,                          BE_RPRN ,TD(SH_M),BE_N    ,BE_E    ,BE_I    ,BE_O    ,_COPY   ,
+     LK_CAPS ,BE_A    ,BE_R    ,BE_S    ,BE_T    ,BE_G    ,BE_LPRN ,                          BE_RPRN ,TD(SH_M),BE_N    ,BE_E    ,BE_I    ,BE_O    ,_COPY   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,LK_CAPS ,_______ ,        _______ ,DITTO   ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EACU ,_PASTE  ,
+     M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,LAST    ,PV_TAB  ,        NX_TAB  ,LK_SYM  ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EACU ,_PASTE  ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     ALTF4   ,TASK    ,SNIP    ,ALT_WOX ,    NAV_SPC  ,    WIN_ENT ,M_ALT   ,        M_CTR   ,FN_DEL  ,   SYM_BSPC ,     BE_QUES ,TD(CLR) ,_SEL    ,_CUT
+     MINI    ,QUIT    ,DITTO   ,ALT_WOX ,    NAV_SPC  ,    WIN_ENT ,M_ALT   ,        M_CTR   ,FN_DEL  ,   SYM_BSPC ,     BE_QUES ,SNIP    ,_SEL    ,_CUT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
-
-
-
      [_CAPS] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                                            _______ ,_______ ,BE_SLSH ,_______ ,XXXXXXX ,_______ ,
+     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                                            _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,S(BE_Q) ,S(BE_W) ,S(BE_F) ,S(BE_P) ,S(BE_B) ,BE_EQL  ,                          BE_PLUS ,S(BE_J) ,S(BE_L) ,S(BE_U) ,S(BE_Y) ,BE_EGRV ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -241,10 +234,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,S(BE_Z) ,S(BE_X) ,S(BE_C) ,S(BE_D) ,S(BE_V) ,_______ ,_______,         _______ ,_______ ,S(BE_K) ,S(BE_H) ,BE_COMM ,BE_DOT  ,BE_EACU ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     _______ ,XXXXXXX ,_______ ,_______ ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     BE_QUES ,TD(CLR) ,_______ ,_______
+     _______ ,_______ ,_______ ,_______ ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     _______ ,_______ ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
-
    [_SYM] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,BE_BSLS ,XXXXXXX ,XXXXXXX ,_______ ,
@@ -258,7 +250,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      XXXXXXX ,XXXXXXX ,BE_DOT  ,BE_0    ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     BE_EXLM ,XXXXXXX ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
-
      [_NAV] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
@@ -272,22 +263,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
-
      [_FN] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,XXXXXXX ,KC_F10  ,KC_F11  ,KC_F12  ,XXXXXXX ,                                            AUTO_KEY,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_VOLU ,RGB_TOG ,KC_F7   ,KC_F8   ,KC_F9   ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,XXXXXXX ,USER    ,XXXXXXX ,XXXXXXX ,_______ ,
+     KC_VOLU ,RGB_TOG ,KC_F7   ,KC_F8   ,KC_F9   ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,MAILP   ,USER    ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_VOLD ,KC_ASRP ,KC_F4   ,KC_F5   ,KC_F6   ,XXXXXXX ,BE_LCBR ,                          BE_RCBR ,MAILP   ,MAILB   ,PASS    ,XXXXXXX ,XXXXXXX ,_______ ,
+     KC_VOLD ,KC_ASRP ,KC_F4   ,KC_F5   ,KC_F6   ,XXXXXXX ,BE_LCBR ,                          BE_RCBR ,TASKM   ,MAILB   ,PASS    ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_BRIU ,KC_ASUP ,KC_F1   ,KC_F2   ,KC_F3   ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,DESK_L  ,DESK_R  ,LOGIN   ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      KC_BRID ,KC_ASDN ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     PHONE   ,XXXXXXX ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
-
-
 };
 
 
@@ -303,152 +291,19 @@ uint8_t cur_dance(qk_tap_dance_state_t *state) {
 }
 
 // Handle the possible states for each tapdance keycode you define:
-
-void copy_finished(qk_tap_dance_state_t *state, void *user_data) {
-    td_state = cur_dance(state);
+void quot_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP:
-            register_code16(KC_D);
+            unregister_code16(KC_4);
             break;
         case SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LCTRL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
-            register_code16(KC_C);
-            break;
-        case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
-            tap_code16(KC_D);
-            register_code16(KC_D);
-    }
-}
-
-void copy_reset(qk_tap_dance_state_t *state, void *user_data) {
-    switch (td_state) {
-        case SINGLE_TAP:
-            unregister_code16(KC_D);
-            break;
-        case SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LCTRL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
-            unregister_code16(KC_C);
+            unregister_mods(MOD_BIT(KC_LSFT));
+            unregister_code16(KC_3);
             break;
         case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_D);
+            unregister_code16(KC_3);
     }
 }
-
-void home_finished(qk_tap_dance_state_t *state, void *user_data) {
-    td_state = cur_dance(state);
-    switch (td_state) {
-        case SINGLE_TAP:
-            register_code16(KC_HOME);
-            break;
-        case SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LCTL));
-            register_code16(KC_HOME);
-            break;
-        case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
-            register_code16(KC_HOME);
-    }
-}
-
-void home_reset(qk_tap_dance_state_t *state, void *user_data) {
-    switch (td_state) {
-        case SINGLE_TAP:
-            unregister_code16(KC_HOME);
-            break;
-        case SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LCTL));
-            unregister_code16(KC_HOME);
-            break;
-        case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_HOME);
-    }
-}
-
-void end_finished(qk_tap_dance_state_t *state, void *user_data) {
-    td_state = cur_dance(state);
-    switch (td_state) {
-        case SINGLE_TAP:
-            register_code16(KC_END);
-            break;
-        case SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LCTL));
-            register_code16(KC_END);
-            break;
-        case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
-            register_code16(KC_END);
-    }
-}
-
-void end_reset(qk_tap_dance_state_t *state, void *user_data) {
-    switch (td_state) {
-        case SINGLE_TAP:
-            unregister_code16(KC_END);
-            break;
-        case SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LCTL));
-            unregister_code16(KC_END);
-            break;
-        case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_END);
-    }
-}
-
-void pgup_finished(qk_tap_dance_state_t *state, void *user_data) {
-    td_state = cur_dance(state);
-    switch (td_state) {
-        case SINGLE_TAP:
-            register_code16(KC_PGUP);
-            break;
-        case SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LCTL));
-            register_code16(KC_PGUP);
-            break;
-        case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
-            register_code16(KC_PGUP);
-    }
-}
-
-void pgup_reset(qk_tap_dance_state_t *state, void *user_data) {
-    switch (td_state) {
-        case SINGLE_TAP:
-            unregister_code16(KC_PGUP);
-            break;
-        case SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LCTL));
-            unregister_code16(KC_PGUP);
-            break;
-        case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_PGUP);
-    }
-}
-void pgdn_finished(qk_tap_dance_state_t *state, void *user_data) {
-    td_state = cur_dance(state);
-    switch (td_state) {
-        case SINGLE_TAP:
-            register_code16(KC_PGDN);
-            break;
-        case SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LCTL));
-            register_code16(KC_PGDN);
-            break;
-        case DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
-            register_code16(KC_PGDN);
-    }
-}
-
-void pgdn_reset(qk_tap_dance_state_t *state, void *user_data) {
-    switch (td_state) {
-        case SINGLE_TAP:
-            unregister_code16(KC_PGDN);
-            break;
-        case SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LCTL));
-            unregister_code16(KC_PGDN);
-            break;
-        case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_PGDN);
-    }
-}
-
 void quot_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
@@ -538,16 +393,9 @@ void shiftm_reset(qk_tap_dance_state_t *state, void *user_data) {
 
 // Define `ACTION_TAP_DANCE_FN_ADVANCED()` for each tapdance keycode, passing in `finished` and `reset` functions
 qk_tap_dance_action_t tap_dance_actions[] = {
-    [COPY] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, copy_finished, copy_reset),
     [QUOT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quot_finished, quot_reset),
-    [HOMCTR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, home_finished, home_reset),
-    [ENDCTR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, end_finished, end_reset),
-    [PGUP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, pgup_finished, pgup_reset),
-    [PGDN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, pgdn_finished, pgdn_reset),
     [CLR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, clear_finished, clear_reset),
     [SH_M] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shiftm_finished, shiftm_reset)
-    //[M] =  ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, shiftm_finished, shiftm_reset,)
-     //[ETC] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(cycleEtc, NULL, NULL, 800),
 };
 
 // Common LED indicator
