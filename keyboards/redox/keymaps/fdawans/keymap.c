@@ -65,6 +65,13 @@
 #define NX_TAB LCTL(KC_PGDN)
 #define PV_TAB LCTL(KC_PGUP)
 
+// Quit App (Alt + F4)
+#define QUIT LALT(KC_F4)
+
+// Ctrl + Home / Ctrl + End
+#define CTR_HOME LCTL(KC_HOME)
+#define CTR_END LCTL(KC_END)
+
 //Task Manager & Snipping Tool
 #define TASKM LCTL(LSFT(KC_ESC))
 #define SNIP LWIN(LSFT(KC_S))
@@ -227,7 +234,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,LAST_APP,LOOP_APP,        NX_TAB  ,LK_SYM  ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EACU ,_PASTE  ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     TD(EXIT),_______ ,DITTO   ,ALT_WOX ,    NAV_SPC  ,    WIN_ENT ,M_ALT   ,        M_CTR   ,FN_DEL  ,   SYM_BSPC ,     BE_QUES ,SNIP    ,_SEL    ,_CUT
+     _______ ,QUIT    ,DITTO   ,ALT_WOX ,    NAV_SPC  ,    WIN_ENT ,M_ALT   ,        M_CTR   ,FN_DEL  ,   SYM_BSPC ,     BE_QUES ,SNIP    ,_SEL    ,_CUT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
      [_CAPS] = LAYOUT(
@@ -264,7 +271,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,_SEL    ,KC_TAB  ,KC_LSFT ,KC_LCTRL,KC_LALT ,BE_LCBR ,                          BE_RCBR ,XXXXXXX ,KC_LEFT ,KC_DOWN ,KC_RIGHT,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,_UNDO   ,_REDO   ,_CUT    ,_COPY   ,_PASTE   ,_______ ,_______ ,        _______ ,_______ ,XXXXXXX,KC_HOME ,XXXXXXX ,KC_END  ,XXXXXXX ,_______ ,
+     XXXXXXX ,_UNDO   ,_REDO   ,_CUT    ,_COPY   ,_PASTE  ,_______ ,_______ ,        _______ ,_______ ,CTR_HOME,KC_HOME ,XXXXXXX ,KC_END  ,CTR_END ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
