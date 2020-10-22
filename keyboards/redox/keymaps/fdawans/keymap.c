@@ -75,7 +75,8 @@ enum td_keycodes {
     QUOT,
     CLR,
     SH_M,
-    EXIT 
+    EXIT,
+    AGRV
     };
 
 //Variables for Auto Key Press
@@ -216,11 +217,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
  [_COL] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     TD(CLR) ,_______ ,BE_PERC ,TD(QUOT),_______ ,BE_UNDS ,                                            BE_MINS ,_______ ,BE_SLSH ,BE_ASTR ,_______ ,KC_BTN2 ,
+     TD(CLR) ,_______ ,_______ ,TD(QUOT),_______ ,BE_UNDS ,                                            BE_MINS ,_______ ,BE_SLSH ,_______ ,_______ ,KC_BTN2 ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TAB  ,BE_Q    ,BE_W    ,BE_F    ,BE_P    ,BE_B    ,BE_EQL  ,                          BE_PLUS ,BE_J    ,BE_L    ,BE_U    ,BE_Y    ,BE_EGRV ,KC_BTN1 ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     LK_CAPS ,BE_A    ,BE_R    ,BE_S    ,BE_T    ,BE_G    ,BE_LPRN ,                          BE_RPRN ,TD(SH_M),BE_N    ,BE_E    ,BE_I    ,BE_O    ,_COPY   ,
+     LK_CAPS ,TD(AGRV),BE_R    ,BE_S    ,BE_T    ,BE_G    ,BE_LPRN ,                          BE_RPRN ,TD(SH_M),BE_N    ,BE_E    ,BE_I    ,BE_O    ,_COPY   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,LAST    ,PV_TAB  ,        NX_TAB  ,LK_SYM  ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EACU ,_PASTE  ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
@@ -231,7 +232,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                                            _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,S(BE_Q) ,S(BE_W) ,S(BE_F) ,S(BE_P) ,S(BE_B) ,BE_EQL  ,                          BE_PLUS ,S(BE_J) ,S(BE_L) ,S(BE_U) ,S(BE_Y) ,BE_EGRV ,_______ ,
+     _______ ,S(BE_Q) ,S(BE_W) ,S(BE_F) ,S(BE_P) ,S(BE_B) ,_______ ,                          _______ ,S(BE_J) ,S(BE_L) ,S(BE_U) ,S(BE_Y) ,BE_EGRV ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,S(BE_A) ,S(BE_R) ,S(BE_S) ,S(BE_T) ,S(BE_G) ,BE_LPRN ,                          BE_RPRN ,S(BE_M) ,S(BE_N)  ,S(BE_E),S(BE_I) ,S(BE_O) ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -242,15 +243,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
    [_SYM] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     _______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,BE_BSLS ,XXXXXXX ,XXXXXXX ,_______ ,
+     _______ ,XXXXXXX ,XXXXXXX ,BE_SLSH ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,BE_BSLS ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,BE_AMP  ,BE_7    ,BE_8    ,BE_9    ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,BE_CIRC ,BE_HASH ,BE_UGRV ,UCIRC   ,ETREM   ,_______ ,
+     XXXXXXX ,BE_AMP  ,BE_7    ,BE_8    ,BE_9    ,BE_MINS ,_______ ,                          _______ ,BE_CIRC ,BE_HASH ,BE_UGRV ,UCIRC   ,ETREM   ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,BE_AGRV ,BE_4    ,BE_5    ,BE_6    ,XXXXXXX ,BE_LBRC ,                          BE_RBRC ,BE_CCED ,BE_DLR  ,BE_EURO ,BE_PIPE ,XXXXXXX ,_______ ,
+     _______ ,BE_DOT  ,BE_4    ,BE_5    ,BE_6    ,BE_PLUS ,BE_LBRC ,                          BE_RBRC ,BE_CCED ,BE_DLR  ,BE_EURO ,BE_PIPE ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,BE_AT   ,BE_1    ,BE_2    ,BE_3    ,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,BE_LABK ,BE_RABK ,BE_SCLN ,BE_COLN ,ECIRC   ,_______ ,
+     XXXXXXX ,BE_AT   ,BE_1    ,BE_2    ,BE_3    ,BE_PERC ,_______ ,_______ ,        _______ ,_______ ,BE_LABK ,BE_RABK ,BE_SCLN ,BE_COLN ,ECIRC   ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,BE_DOT  ,BE_0    ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     BE_EXLM ,XXXXXXX ,_______ ,_______
+     XXXXXXX ,XXXXXXX ,BE_ASTR ,BE_0    ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     BE_EXLM ,XXXXXXX ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
      [_NAV] = LAYOUT(
@@ -320,6 +321,7 @@ void exit_reset(qk_tap_dance_state_t *state, void *user_data) {
             break;
     }
 }
+
 
 void quot_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
@@ -406,12 +408,42 @@ void shiftm_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void agrv_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case SINGLE_TAP: // m
+            register_code16(BE_A);
+            break;
+        case SINGLE_HOLD: // M
+            register_mods(MOD_BIT(KC_LSFT));
+            register_code16(BE_A);
+            break;
+        case DOUBLE_SINGLE_TAP: // mm
+            register_code16(BE_AGRV)
+    }
+}
+
+void agrv_reset(qk_tap_dance_state_t *state, void *user_data) {
+ td_state = cur_dance(state);
+    switch (td_state) {
+        case SINGLE_TAP: // m
+            unregister_code16(BE_A);
+            break;
+        case SINGLE_HOLD: // M
+            unregister_mods(MOD_BIT(KC_LSFT));
+            unregister_code16(BE_A);
+            break;
+        case DOUBLE_SINGLE_TAP: // mm
+            unregister_code16(BE_AGRV)
+    }
+}
 // Define `ACTION_TAP_DANCE_FN_ADVANCED()` for each tapdance keycode, passing in `finished` and `reset` functions
 qk_tap_dance_action_t tap_dance_actions[] = {
     [QUOT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quot_finished, quot_reset),
     [CLR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, clear_finished, clear_reset),
     [SH_M] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shiftm_finished, shiftm_reset)
     [EXIT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, exit_finished, exit_reset)
+    [AGRV] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, agrv_finished, agrv_reset)
 };
 
 // Common LED indicator
