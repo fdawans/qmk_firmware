@@ -57,13 +57,12 @@
 #define DESK_R LCTL(LWIN(KC_RIGHT))
 #define DESK_L LCTL(LWIN(KC_LEFT))
 
-// Quit current app
-#define QUIT LALT(KC_F4)
 // Go to last app - (Alt + Tab)
 #define LAST LALT(KC_TAB)
-// Go to next & previous tab (Firefox, VSCode)
-#define NX_TAB LCTL(KC_PGUP)
-#define PV_TAB LCTL(KC_PGDN)
+// Next, previous, exit tab (Firefox, VSCode)
+#define NX_TAB LCTL(KC_PGDN)
+#define PV_TAB LCTL(KC_PGUP)
+
 //Task Manager & Snipping Tool
 #define TASKM LCTL(LSFT(KC_ESC))
 #define SNIP LWIN(LSFT(KC_S))
@@ -75,7 +74,8 @@
 enum td_keycodes {
     QUOT,
     CLR,
-    SH_M
+    SH_M,
+    EXIT 
     };
 
 //Variables for Auto Key Press
@@ -93,7 +93,7 @@ enum custom_keycodes {
     PASS,
     PHONE,
     LOGIN,
-    MINI,
+    //MINI,
     AUTO_KEY
 };
 
@@ -101,7 +101,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case USER:
         if (record->event.pressed) {
-             SEND_STRING("u548868");
+            SEND_STRING("u548868");
         } else {
         }
         break;
@@ -136,7 +136,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
         }
         break;
-     case ETREM:
+    case ETREM:
         if (record->event.pressed) {
             register_mods(MOD_BIT(KC_LSFT));
             register_code(BE_DCIR);
@@ -166,7 +166,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
         }
         break;
-    case MINI: //Minimize current app (Alt + Space + N)
+    /*case MINI: //Minimize current app (Alt + Space + N)
         if (record->event.pressed) {
             register_mods(MOD_BIT(KC_LALT));
             register_code(KC_SPC);
@@ -177,6 +177,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
         }
         break;
+    */
     case AUTO_KEY:
             if (record->event.pressed) {
                 key_trigger ^= true;
@@ -202,6 +203,8 @@ static td_state_t td_state;
 uint8_t cur_dance(qk_tap_dance_state_t *state);
 
 // `finished` and `reset` functions for each tapdance keycode
+void exit_finished(qk_tap_dance_state_t *state, void *user_data);
+void exit_reset(qk_tap_dance_state_t *state, void *user_data);
 void quot_finished(qk_tap_dance_state_t *state, void *user_data);
 void quot_reset(qk_tap_dance_state_t *state, void *user_data);
 void clear_finished(qk_tap_dance_state_t *state, void *user_data);
@@ -221,7 +224,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,LAST    ,PV_TAB  ,        NX_TAB  ,LK_SYM  ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EACU ,_PASTE  ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     MINI    ,QUIT    ,DITTO   ,ALT_WOX ,    NAV_SPC  ,    WIN_ENT ,M_ALT   ,        M_CTR   ,FN_DEL  ,   SYM_BSPC ,     BE_QUES ,SNIP    ,_SEL    ,_CUT
+     TD(EXIT),_______ ,DITTO   ,ALT_WOX ,    NAV_SPC  ,    WIN_ENT ,M_ALT   ,        M_CTR   ,FN_DEL  ,   SYM_BSPC ,     BE_QUES ,SNIP    ,_SEL    ,_CUT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
      [_CAPS] = LAYOUT(
@@ -278,7 +281,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
-
 // Determine the tapdance state to return
 uint8_t cur_dance(qk_tap_dance_state_t *state) {
     if (state->count == 1) {
@@ -291,45 +293,58 @@ uint8_t cur_dance(qk_tap_dance_state_t *state) {
 }
 
 // Handle the possible states for each tapdance keycode you define:
-void quot_reset(qk_tap_dance_state_t *state, void *user_data) {
+void exit_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
     switch (td_state) {
-        case SINGLE_TAP:
-            unregister_code16(KC_4);
+        case SINGLE_TAP: // Ctrl + W (Close Tab)
+            register_mods(MOD_BIT(KC_LCTRL));
+            register_code16(BE_W)
             break;
-        case SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LSFT));
-            unregister_code16(KC_3);
+        case SINGLE_HOLD: // Alt + F4 (Close Program)
+            register_mods(MOD_BIT(KC_LALT));
+            register_code16(KC_F4);
             break;
-        case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_3);
     }
 }
+
+void exit_reset(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case SINGLE_TAP: // Ctrl + W (Close Tab)
+            unregister_mods(MOD_BIT(KC_LCTRL));
+            unregister_code16(BE_W)
+            break;
+        case SINGLE_HOLD: // Alt + F4 (Close Program)
+            unregister_mods(MOD_BIT(KC_LALT));
+            unregister_code16(KC_F4);
+            break;
+    }
+}
+
 void quot_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case SINGLE_TAP: // KC_4 = ' on Windows BE
-            register_code16(KC_4);
-            break;
-        case SINGLE_HOLD: // Shift + KC_3 = 3 on Windows BE
-            register_mods(MOD_BIT(KC_LSFT));
-            register_code16(KC_3);
+            //register_code16(KC_4);
+            register_code16(BE_QUOT);
             break;
         case DOUBLE_SINGLE_TAP: // KC_3 = " on Windows BE
-            register_code16(KC_3);
+            //register_code16(KC_3);
+            register_code16(BE_DQUO);
     }
 }
 
+
 void quot_reset(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
     switch (td_state) {
-        case SINGLE_TAP:
-            unregister_code16(KC_4);
+        case SINGLE_TAP: // KC_4 = ' on Windows BE
+            //register_code16(KC_4);
+            unregister_code16(BE_QUOT);
             break;
-        case SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LSFT));
-            unregister_code16(KC_3);
-            break;
-        case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_3);
+        case DOUBLE_SINGLE_TAP: // KC_3 = " on Windows BE
+            //register_code16(KC_3);
+            unregister_code16(BE_DQUO);
     }
 }
 
@@ -396,6 +411,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [QUOT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quot_finished, quot_reset),
     [CLR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, clear_finished, clear_reset),
     [SH_M] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shiftm_finished, shiftm_reset)
+    [EXIT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, exit_finished, exit_reset)
 };
 
 // Common LED indicator
