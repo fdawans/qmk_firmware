@@ -58,7 +58,9 @@
 #define DESK_L LCTL(LWIN(KC_LEFT))
 
 // Go to last app - (Alt + Tab)
-#define LAST LALT(KC_TAB)
+#define LAST_APP LALT(KC_TAB)
+// Go to last app & loop - (Alt + Shift + Tab)
+#define LOOP_APP LALT(LSFT(KC_TAB))
 // Next, previous, exit tab (Firefox, VSCode)
 #define NX_TAB LCTL(KC_PGDN)
 #define PV_TAB LCTL(KC_PGUP)
@@ -223,7 +225,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      LK_CAPS ,TD(AGRV),BE_R    ,BE_S    ,BE_T    ,BE_G    ,BE_LPRN ,                          BE_RPRN ,TD(SH_M),BE_N    ,BE_E    ,BE_I    ,BE_O    ,_COPY   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,LAST    ,PV_TAB  ,        NX_TAB  ,LK_SYM  ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EACU ,_PASTE  ,
+     M_SFT   ,BE_Z    ,BE_X    ,BE_C    ,BE_D    ,BE_V    ,LAST_APP,LOOP_APP,        NX_TAB  ,LK_SYM  ,BE_K    ,BE_H    ,BE_COMM ,BE_DOT  ,BE_EACU ,_PASTE  ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      TD(EXIT),_______ ,DITTO   ,ALT_WOX ,    NAV_SPC  ,    WIN_ENT ,M_ALT   ,        M_CTR   ,FN_DEL  ,   SYM_BSPC ,     BE_QUES ,SNIP    ,_SEL    ,_CUT
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
@@ -234,7 +236,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,S(BE_Q) ,S(BE_W) ,S(BE_F) ,S(BE_P) ,S(BE_B) ,_______ ,                          _______ ,S(BE_J) ,S(BE_L) ,S(BE_U) ,S(BE_Y) ,BE_EGRV ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,S(BE_A) ,S(BE_R) ,S(BE_S) ,S(BE_T) ,S(BE_G) ,BE_LPRN ,                          BE_RPRN ,S(BE_M) ,S(BE_N)  ,S(BE_E),S(BE_I) ,S(BE_O) ,_______ ,
+     _______ ,S(BE_A) ,S(BE_R) ,S(BE_S) ,S(BE_T) ,S(BE_G) ,BE_LPRN ,                          BE_RPRN ,S(BE_M) ,S(BE_N) ,S(BE_E) ,S(BE_I) ,S(BE_O) ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,S(BE_Z) ,S(BE_X) ,S(BE_C) ,S(BE_D) ,S(BE_V) ,_______ ,_______,         _______ ,_______ ,S(BE_K) ,S(BE_H) ,BE_COMM ,BE_DOT  ,BE_EACU ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
@@ -247,11 +249,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,BE_AMP  ,BE_7    ,BE_8    ,BE_9    ,BE_MINS ,_______ ,                          _______ ,BE_CIRC ,BE_HASH ,BE_UGRV ,UCIRC   ,ETREM   ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,BE_DOT  ,BE_4    ,BE_5    ,BE_6    ,BE_PLUS ,BE_LBRC ,                          BE_RBRC ,BE_CCED ,BE_DLR  ,BE_EURO ,BE_PIPE ,_______ ,_______ ,
+     _______ ,BE_DOT  ,BE_4    ,BE_5    ,BE_6    ,BE_PLUS ,BE_LBRC ,                          BE_RBRC ,BE_CCED ,BE_DLR  ,BE_EURO ,BE_PIPE ,BE_EXLM ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,BE_AT   ,BE_1    ,BE_2    ,BE_3    ,BE_PERC ,_______ ,_______ ,        _______ ,_______ ,BE_LABK ,BE_RABK ,BE_SCLN ,BE_COLN ,ECIRC   ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,BE_ASTR ,BE_0    ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     BE_EXLM ,XXXXXXX ,_______ ,_______
+     XXXXXXX ,XXXXXXX ,BE_ASTR ,BE_0    ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
      [_NAV] = LAYOUT(
@@ -299,12 +301,17 @@ void exit_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP: // Ctrl + W (Close Tab)
             register_mods(MOD_BIT(KC_LCTRL));
-            register_code16(BE_W)
+            register_code16(BE_W);
             break;
         case SINGLE_HOLD: // Alt + F4 (Close Program)
             register_mods(MOD_BIT(KC_LALT));
             register_code16(KC_F4);
             break;
+        case DOUBLE_SINGLE_TAP:
+            register_mods(MOD_BIT(KC_LCTRL));
+            register_code16(BE_W);
+            register_mods(MOD_BIT(KC_LCTRL));
+            register_code16(BE_W);
     }
 }
 
@@ -313,12 +320,17 @@ void exit_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP: // Ctrl + W (Close Tab)
             unregister_mods(MOD_BIT(KC_LCTRL));
-            unregister_code16(BE_W)
+            unregister_code16(BE_W);
             break;
         case SINGLE_HOLD: // Alt + F4 (Close Program)
             unregister_mods(MOD_BIT(KC_LALT));
             unregister_code16(KC_F4);
             break;
+        case DOUBLE_SINGLE_TAP:
+            unregister_mods(MOD_BIT(KC_LCTRL));
+            unregister_code16(BE_W);
+            unregister_mods(MOD_BIT(KC_LCTRL));
+            unregister_code16(BE_W);
     }
 }
 
@@ -329,6 +341,8 @@ void quot_finished(qk_tap_dance_state_t *state, void *user_data) {
         case SINGLE_TAP: // KC_4 = ' on Windows BE
             //register_code16(KC_4);
             register_code16(BE_QUOT);
+            break;
+        case SINGLE_HOLD:
             break;
         case DOUBLE_SINGLE_TAP: // KC_3 = " on Windows BE
             //register_code16(KC_3);
@@ -343,6 +357,8 @@ void quot_reset(qk_tap_dance_state_t *state, void *user_data) {
         case SINGLE_TAP: // KC_4 = ' on Windows BE
             //register_code16(KC_4);
             unregister_code16(BE_QUOT);
+            break;
+        case SINGLE_HOLD:
             break;
         case DOUBLE_SINGLE_TAP: // KC_3 = " on Windows BE
             //register_code16(KC_3);
@@ -411,38 +427,38 @@ void shiftm_reset(qk_tap_dance_state_t *state, void *user_data) {
 void agrv_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
-        case SINGLE_TAP: // m
+        case SINGLE_TAP:
             register_code16(BE_A);
             break;
-        case SINGLE_HOLD: // M
+        case SINGLE_HOLD: // A
             register_mods(MOD_BIT(KC_LSFT));
             register_code16(BE_A);
             break;
-        case DOUBLE_SINGLE_TAP: // mm
-            register_code16(BE_AGRV)
+        case DOUBLE_SINGLE_TAP: // à
+            register_code16(BE_AGRV);
     }
 }
 
 void agrv_reset(qk_tap_dance_state_t *state, void *user_data) {
  td_state = cur_dance(state);
     switch (td_state) {
-        case SINGLE_TAP: // m
+        case SINGLE_TAP:
             unregister_code16(BE_A);
             break;
-        case SINGLE_HOLD: // M
+        case SINGLE_HOLD:
             unregister_mods(MOD_BIT(KC_LSFT));
             unregister_code16(BE_A);
             break;
-        case DOUBLE_SINGLE_TAP: // mm
-            unregister_code16(BE_AGRV)
+        case DOUBLE_SINGLE_TAP:
+            unregister_code16(BE_AGRV);
     }
 }
 // Define `ACTION_TAP_DANCE_FN_ADVANCED()` for each tapdance keycode, passing in `finished` and `reset` functions
 qk_tap_dance_action_t tap_dance_actions[] = {
     [QUOT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quot_finished, quot_reset),
     [CLR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, clear_finished, clear_reset),
-    [SH_M] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shiftm_finished, shiftm_reset)
-    [EXIT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, exit_finished, exit_reset)
+    [SH_M] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shiftm_finished, shiftm_reset),
+    [EXIT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, exit_finished, exit_reset),
     [AGRV] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, agrv_finished, agrv_reset)
 };
 
