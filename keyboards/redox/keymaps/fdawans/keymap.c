@@ -76,12 +76,12 @@
 #define TASKM LCTL(LSFT(KC_ESC))
 #define SNIP LWIN(LSFT(KC_S))
 
-#define SH_TAB LSFT(KC_TAB) 
+#define SH_TAB LSFT(KC_TAB)
 
 // Keymouse Normal Mode Alt + Shift + ]
-#define MOUSEN LALT(LSFT(KC_RBRC) 
+#define MOUSEN LALT(LSFT(KC_RBRC))
 // Keymouse Fast Mode Alt + Shift + [
-#define MOUSEF LALT(LSFT(KC_LBRC)
+#define MOUSEF LALT(LSFT(KC_LBRC))
 
 
 //Delay on Windows Key
@@ -275,11 +275,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX                                             ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,SH_TAB  ,KC_RWIN ,KC_ESC  ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,KC_PGUP ,KC_UP   ,KC_PGDN ,MOUSEN  ,_______ ,
+     XXXXXXX ,XXXXXXX ,SH_TAB  ,KC_RWIN ,KC_ESC  ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,KC_PGUP ,KC_UP   ,KC_PGDN ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,_SEL    ,KC_TAB  ,KC_LSFT ,KC_LCTRL,KC_LALT ,BE_LCBR ,                          BE_RCBR ,XXXXXXX ,KC_LEFT ,KC_DOWN ,KC_RIGHT,MOUSEF  ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,_UNDO   ,_REDO   ,_CUT    ,_COPY   ,_PASTE  ,_______ ,_______ ,        _______ ,_______ ,CTR_HOME,KC_HOME ,MOUSE   ,KC_END  ,CTR_END ,_______ ,
+     XXXXXXX ,_UNDO   ,_REDO   ,_CUT    ,_COPY   ,_PASTE  ,_______ ,_______ ,        _______ ,_______ ,CTR_HOME,KC_HOME ,MOUSEN  ,KC_END  ,CTR_END ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
