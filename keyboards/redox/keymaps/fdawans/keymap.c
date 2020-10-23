@@ -76,13 +76,14 @@
 #define TASKM LCTL(LSFT(KC_ESC))
 #define SNIP LWIN(LSFT(KC_S))
 
+// Shift + Tab
 #define SH_TAB LSFT(KC_TAB)
 
-// Keymouse Normal Mode Alt + Shift + ]
-#define MOUSEN LALT(LSFT(KC_RBRC))
-// Keymouse Fast Mode Alt + Shift + [
-#define MOUSEF LALT(LSFT(KC_LBRC))
-
+// Keymouse Normal Mode Alt + [
+// NOT WORKING - issue with EN/BE keycodes
+#define MOUSEN LALT(KC_RBRC)
+// Keymouse Fast Mode Alt + ]
+#define MOUSEF LALT(KC_LBRC)
 
 //Delay on Windows Key
 //#define M_WIN OSM(MOD_LGUI)
@@ -92,8 +93,8 @@ enum td_keycodes {
     QUOT,
     CLR,
     SH_M,
-    EXIT,
-    AGRV
+    //EXIT,
+    //AGRV
     };
 
 //Variables for Auto Key Press
@@ -221,8 +222,8 @@ static td_state_t td_state;
 uint8_t cur_dance(qk_tap_dance_state_t *state);
 
 // `finished` and `reset` functions for each tapdance keycode
-void exit_finished(qk_tap_dance_state_t *state, void *user_data);
-void exit_reset(qk_tap_dance_state_t *state, void *user_data);
+//void exit_finished(qk_tap_dance_state_t *state, void *user_data);
+//void exit_reset(qk_tap_dance_state_t *state, void *user_data);
 void quot_finished(qk_tap_dance_state_t *state, void *user_data);
 void quot_reset(qk_tap_dance_state_t *state, void *user_data);
 void clear_finished(qk_tap_dance_state_t *state, void *user_data);
@@ -311,6 +312,7 @@ uint8_t cur_dance(qk_tap_dance_state_t *state) {
 }
 
 // Handle the possible states for each tapdance keycode you define:
+
 void exit_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
@@ -412,33 +414,34 @@ void shiftm_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case SINGLE_TAP: // m
-            register_code16(KC_SCLN);
+            register_code16(BE_M);
             break;
         case SINGLE_HOLD: // M
             register_mods(MOD_BIT(KC_LSFT));
-            register_code16(KC_SCLN);
+            register_code16(BE_M);
             break;
         case DOUBLE_SINGLE_TAP: // mm
-            register_code16(KC_SCLN);
-            register_code16(KC_SCLN);
+            register_code16(BE_M);
+            register_code16(BE_M);
     }
 }
 
 void shiftm_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case SINGLE_TAP:
-            unregister_code16(KC_SCLN);
+            unregister_code16(BE_M);
             break;
         case SINGLE_HOLD:
             unregister_mods(MOD_BIT(KC_LSFT));
-            unregister_code16(KC_SCLN);
+            unregister_code16(BE_M);
             break;
         case DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_SCLN);
-            unregister_code16(KC_SCLN);
+            unregister_code16(BE_M);
+            unregister_code16(BE_M);
     }
 }
 
+/*
 void agrv_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
@@ -468,13 +471,15 @@ void agrv_reset(qk_tap_dance_state_t *state, void *user_data) {
             unregister_code16(BE_AGRV);
     }
 }
+*/
+
 // Define `ACTION_TAP_DANCE_FN_ADVANCED()` for each tapdance keycode, passing in `finished` and `reset` functions
 qk_tap_dance_action_t tap_dance_actions[] = {
     [QUOT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quot_finished, quot_reset),
     [CLR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, clear_finished, clear_reset),
-    [SH_M] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shiftm_finished, shiftm_reset),
-    [EXIT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, exit_finished, exit_reset),
-    [AGRV] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, agrv_finished, agrv_reset)
+    [SH_M] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shiftm_finished, shiftm_reset)
+    //,[EXIT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, exit_finished, exit_reset)
+    //,[AGRV] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, agrv_finished, agrv_reset)
 };
 
 // Common LED indicator
