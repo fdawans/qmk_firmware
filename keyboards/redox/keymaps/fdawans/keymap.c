@@ -122,6 +122,7 @@ enum custom_keycodes {
     LOGIN,
     //MINI,
     //AUTO_KEY,
+    VSCFOCUS,
     ALT_TAB
 };
 
@@ -194,7 +195,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
         }
         break;
-    /*case MINI: //Minimize current app (Alt + Space + N)
+
+    case VSCFOCUS // Switch to 1st or 2nd side window in VSCode Editor - Ctrl + K then Ctrl + PgDown
+        if (record->event.pressed) {
+                SEND_STRING(SS_RCTL("k") SS_TAP(X_DOWN));
+        } else {
+        }
+        break;
+
+    case ALT_TAB:
+      if (record->event.pressed) {
+        if (!is_alt_tab_active) {
+          is_alt_tab_active = true;
+          register_code(KC_LALT);
+        }
+        alt_tab_timer = timer_read();
+        register_code(KC_TAB);
+      } else {
+        unregister_code(KC_TAB);
+      }
+      break;
+    }
+
+        /*case MINI: //Minimize current app (Alt + Space + N)
         if (record->event.pressed) {
             register_mods(MOD_BIT(KC_LALT));
             register_code(KC_SPC);
@@ -211,19 +234,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
     */
-    case ALT_TAB:
-      if (record->event.pressed) {
-        if (!is_alt_tab_active) {
-          is_alt_tab_active = true;
-          register_code(KC_LALT);
-        }
-        alt_tab_timer = timer_read();
-        register_code(KC_TAB);
-      } else {
-        unregister_code(KC_TAB);
-      }
-      break;
-    }
+
     return true;
 };
 
@@ -303,7 +314,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,_UNDO   ,_REDO   ,_CUT    ,_COPY   ,_PASTE  ,_______ ,_______ ,        _______ ,_______ ,CTR_HOME,KC_HOME ,QUIT_TAB,KC_END  ,CTR_END ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,_______ ,_______
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     VSCFOCUS,XXXXXXX ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
      [_FN] = LAYOUT(
