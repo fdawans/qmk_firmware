@@ -4,6 +4,8 @@
 #include "keymap_belgian.h"
 //for macros using Belgian keymap
 #include "sendstring_belgian.h"
+//for keylogging
+#include "debug.h"
 
 // Layers
 #define _COL 0
@@ -92,6 +94,15 @@
 //Delay on Windows Key
 //#define M_WIN OSM(MOD_LGUI)
 
+// Keylogger
+#if KEYLOGGER_ENABLE
+# ifdef AUTOLOG_ENABLE
+bool log_enable = true;
+# else
+bool log_enable = false;
+# endif
+#endif
+
 // Tap Dance keycodes - Use TD(code) in layout to use
 enum td_keycodes {
     QUOT,
@@ -128,6 +139,20 @@ enum custom_keycodes {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+#if KEYLOGGER_ENABLE
+  if (log_enable) {
+    uint8_t layer = biton32(layer_state);
+
+    if (layer == _COL)
+      uprintf ("KL: col=%02d, row=%02d, pressed=%d, layer=%s\n",
+    record->event.key.col,
+    record->event.key.row,
+    record->event.pressed,
+    "COLEMAK");
+  }
+#endif
+
     switch (keycode) {
     case USER:
         if (record->event.pressed) {
@@ -246,7 +271,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
     */
 
-    return true;
+
+  return true;
 };
 
 // Define a type containing as many tapdance states as you need
