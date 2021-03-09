@@ -150,7 +150,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         break;
     case PASS:
         if (record->event.pressed) {
-            SEND_STRING("Bpost02");
+            SEND_STRING("Bpost02"SS_TAP(X_ENTER));
         } else {
         }
         break;
@@ -280,7 +280,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      TD(CLR) ,_______ ,_______ ,TD(QUOT),_______ ,BE_UNDS ,                                            BE_MINS ,_______ ,BE_SLSH ,_______ ,_______ ,KC_BTN1 ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,BE_Q    ,BE_W    ,BE_F    ,BE_P    ,BE_B    ,BE_EQL  ,                          BE_PLUS ,BE_J    ,BE_L    ,BE_U    ,BE_Y    ,BE_EGRV ,KC_BTN2 ,
+     _______ ,BE_Q    ,BE_W    ,BE_F    ,BE_P    ,BE_B    ,BE_PLUS ,                          BE_EQL  ,BE_J    ,BE_L    ,BE_U    ,BE_Y    ,BE_EGRV ,KC_BTN2 ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      LK_CAPS ,BE_A    ,BE_R    ,BE_S    ,BE_T    ,BE_G    ,BE_LPRN ,                          BE_RPRN ,TD(SH_M),BE_N    ,BE_E    ,BE_I    ,BE_O    ,_COPY   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -308,7 +308,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,BE_AMP  ,BE_7    ,BE_8    ,BE_9    ,BE_MINS ,_______ ,                          _______ ,BE_AT   ,BE_HASH ,BE_UGRV ,BE_DCIR ,ETREM   ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,BE_AGRV ,BE_4    ,BE_5    ,BE_6    ,BE_PLUS ,BE_LBRC ,                          BE_RBRC ,BE_CCED ,BE_DLR  ,BE_EURO ,BE_PIPE ,BE_EXLM ,_______ ,
+     _______ ,BE_AGRV ,BE_4    ,BE_5    ,BE_6    ,BE_PLUS ,BE_LBRC ,                          BE_RBRC ,BE_DLR  ,BE_CCED ,BE_EURO ,BE_PIPE ,BE_EXLM ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,BE_ASTR ,BE_1    ,BE_2    ,BE_3    ,BE_PERC ,_______ ,_______ ,        _______ ,_______ ,BE_LABK ,BE_RABK ,BE_SCLN ,BE_COLN ,ECIRC   ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
@@ -578,7 +578,7 @@ uint32_t layer_state_set_user(uint32_t state) {
 }
 
 void matrix_scan_user(void) {
-  if (is_alt_tab_active) {
+      if (is_alt_tab_active) {
     if (timer_elapsed(alt_tab_timer) > 1000) {
       unregister_code(KC_LALT);
       is_alt_tab_active = false;
