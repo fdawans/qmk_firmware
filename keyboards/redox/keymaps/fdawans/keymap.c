@@ -140,17 +140,54 @@ enum custom_keycodes {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
+// Keylogger to export to hid_listen (open hid_listen.exe to log keys)
 #if KEYLOGGER_ENABLE
   if (log_enable) {
     uint8_t layer = biton32(layer_state);
 
-    if (layer == _COL)
-      uprintf ("KL: col=%02d, row=%02d, pressed=%d, layer=%s\n",
-    record->event.key.col,
-    record->event.key.row,
-    record->event.pressed,
-    "COLEMAK");
-  }
+    if (layer == _COL) {
+      uprintf (
+        "KL: col=%02d, row=%02d, pressed=%d, layer=%s\n",
+        record->event.key.col,
+        record->event.key.row,
+        record->event.pressed,
+        "_COL");
+
+    } else if (layer == _CAPS) {
+      uprintf(
+        "KL: col=%02d, row=%02d, pressed=%d, layer=%s\n",
+        record->event.key.row,
+        record->event.key.col,
+        record->event.pressed,
+        "_CAPS"
+      );
+    } else if (layer == _SYM) {
+      uprintf(
+        "KL: col=%02d, row=%02d, pressed=%d, layer=%s\n",
+        record->event.key.row,
+        record->event.key.col,
+        record->event.pressed,
+        "_SYM"
+      );
+    } else if (layer == _NAV) {
+      uprintf(
+        "KL: col=%02d, row=%02d, pressed=%d, layer=%s\n",
+        record->event.key.row,
+        record->event.key.col,
+        record->event.pressed,
+        "_NAV"
+      );
+      //else then is FN layer (last/5th layer)
+    } else {
+      uprintf(
+        "KL: col=%02d, row=%02d, pressed=%d, layer=%s\n",
+        record->event.key.row,
+        record->event.key.col,
+        record->event.pressed,
+        "_FN"
+      );
+    }
+    }
 #endif
 
     switch (keycode) {
@@ -270,7 +307,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
     */
-
 
   return true;
 };
